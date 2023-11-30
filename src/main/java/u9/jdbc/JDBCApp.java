@@ -23,6 +23,7 @@ public class JDBCApp {
     private static java.sql.PreparedStatement preparedStatement;//
 
     public static void main(String[] args) throws Exception {
+        int i =0;
         try {
             connect();
 
