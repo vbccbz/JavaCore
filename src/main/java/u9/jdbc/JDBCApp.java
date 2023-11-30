@@ -22,12 +22,12 @@ public class JDBCApp {
     private static java.sql.Statement statement;// interface  for query into base
     private static java.sql.PreparedStatement preparedStatement;//
 
-    public static void main(String[] args) throws Exception {
-        int i =0;
+    public static void main(String[] args)  {
+
         try {
             connect();
 
-            statement.execute("drop table firsttable");;
+            statement.execute("drop table firsttable");
 
             statement.execute("create table firsttable (id INTEGER primary key autoincrement, name TEXT, score INTEGER);");
             statement.execute("insert into firsttable (name, score) values ('Aaa', 11);");
