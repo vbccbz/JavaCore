@@ -1,4 +1,4 @@
-package u4.Generics.s2.Collection.List;
+package u4.Generics.s2.List;
 
 public class LinkedListApp {
     public static void main(String[] args) {

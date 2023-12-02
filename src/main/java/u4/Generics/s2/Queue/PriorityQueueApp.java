@@ -1,5 +1,6 @@
-package u4.Generics.s2.Collection.Queue;
+package u4.Generics.s2.Queue;
 
+import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 

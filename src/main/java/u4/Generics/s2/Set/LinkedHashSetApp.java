@@ -1,20 +1,13 @@
-package u4.Generics.s2.Collection.Set;
+package u4.Generics.s2.Set;
 
 import java.util.*;
 
-public class TreeSetApp {
+public class LinkedHashSetApp {
     public static void main(String[] args) {
-//        Set<String> set = new HashSet<>(); // HashMap inside , при выдаче выдаёт в случайном порядке
 //        Set<String> set = new LinkedHashSet<>(); // сохраняет порядок добавления
-//        Set<String> set = new TreeSet<>(); // сортировка по значению
 
         List<String> strings = Arrays.asList("bbb", "zzz", "xxx");
         Set<String> set = new TreeSet<>(strings);
-
-      // ???
-//        public class TreeSet<E> extends AbstractSet<E>
-//                implements NavigableSet<E>, Cloneable, java.io.Serializable
-//        {
 
         set.add("aaa");
         set.add("ccc");

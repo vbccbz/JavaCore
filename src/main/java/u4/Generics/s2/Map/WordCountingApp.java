@@ -3,7 +3,7 @@ package u4.Generics.s2.Map;
 import java.lang.*;
 import java.util.*;
 
-public class WordCounting {
+public class WordCountingApp {
     public static void wordCounting(String[] args) {
         String[] words = {"Java", "Cat", "Java", "Money", "Money", "Money"};
         Map<String, Integer> map = new HashMap<>(1000);

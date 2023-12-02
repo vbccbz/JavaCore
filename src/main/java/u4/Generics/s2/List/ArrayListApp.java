@@ -1,8 +1,9 @@
-package u4.Generics.s2.Collection.List;
+package u4.Generics.s2.List;
 
 public class ArrayListApp {
     public static void main(String[] args) {
         // Do not mistake package name with class names in hierarchy !!!
+        // "Collection.List" is a super bad idea.
 
         java.util.List<Integer> list = new java.util.ArrayList();// if you assign a raw type to a parameterized type, you get a warning:
         // But why???
@@ -44,6 +45,8 @@ public class ArrayListApp {
         while (iterator.hasNext()) {
             sum += iterator.next();
         }
+
+        list1 = new java.util.ArrayList<>(java.util.List.of(1,2,3));
         java.util.ListIterator<Integer> listIterator = list1.listIterator();
         while (listIterator.hasNext()) {
             int temp =listIterator.next();

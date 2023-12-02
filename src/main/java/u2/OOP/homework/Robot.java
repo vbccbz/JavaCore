@@ -1,19 +1,16 @@
-package u2.OOP;
+package u2.OOP.homework;
 
-public class Human implements Participant {
+public class Robot implements Participant {
+    protected void prtc(){}
+
     private int runStatus;
     private int maxJump;
     private int maxRun;
 
-    public Human(int maxJump, int maxRun/*, int maxSwim*/) {
-        this.runStatus = 1;
+    public Robot(int maxJump, int maxRun) {
         this.maxJump = maxJump;
         this.maxRun = maxRun;
-    }
-
-    @Override
-    public boolean isRunning() {
-        return (runStatus == 1);
+        this.runStatus = 1;
     }
 
     @Override
@@ -26,7 +23,6 @@ public class Human implements Participant {
                 runStatus = 0;
                 System.out.println(" can't run ");
             }
-
         } else {
             System.out.println(" isn't running at all ");
         }
@@ -47,6 +43,11 @@ public class Human implements Participant {
         } else {
             System.out.println(" isn't running at all ");
         }
+    }
+
+    @Override
+    public boolean isRunning() {
+        return (runStatus == 1);
     }
 
 }

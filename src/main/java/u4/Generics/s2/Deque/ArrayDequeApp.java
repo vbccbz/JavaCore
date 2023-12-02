@@ -1,4 +1,4 @@
-package u4.Generics.s2.Collection.Queue.Deque;
+package u4.Generics.s2.Deque;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

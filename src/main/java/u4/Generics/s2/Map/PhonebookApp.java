@@ -2,10 +2,10 @@ package u4.Generics.s2.Map;
 
 import java.util.*;
 
-public class Phonebook {
+public class PhonebookApp {
     public Map<String, Set<String>> map;
 
-    public Phonebook() {
+    public PhonebookApp() {
         map = new HashMap<String, Set<String>>(1000);
     }
 
@@ -39,7 +39,7 @@ public class Phonebook {
     }
 
     public static void main(String[] args) {
-        Phonebook phonebook = new Phonebook();
+        PhonebookApp phonebook = new PhonebookApp();
         phonebook.addEntry("George", "1234");
         phonebook.addEntry("George", "999");
         phonebook.addEntry("George", "111");

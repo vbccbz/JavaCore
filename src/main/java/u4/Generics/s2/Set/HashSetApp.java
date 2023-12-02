@@ -1,4 +1,4 @@
-package u4.Generics.s2.Collection.Set;
+package u4.Generics.s2.Set;
 
 import java.lang.*;
 import java.util.*;
