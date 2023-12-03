@@ -2,25 +2,26 @@ package u6.MultiThread.s0.multithreading_two_array;
 
 import java.util.Arrays;
 
-public class App {
+public class TwoArrayApp {
     public static void main(String[] args) {
 /*
 Process
     Code(Text)
     Data(statics)
     Files(???)
-    Thread
+    Threads
         Registers
         Stack
         Each thread has separate heap block.
-        Thread safe of objects?
-        Non-blocking of objects?
 
 True parallel can work only on at least 2 core.
 
 Objects and classes have the Monitor. The Monitor is an abstraction for synchronizing. Synchronized doesn't mean "simultaneously executing". It means "synchronized access to code - only one thread can process this code.
 
 At first, MyRunnable looks more logical than SomeClassName. But for real - many classes implements many interfaces. And their names isn't correspond with interface's names. The implementation of interface endows attributes to a type(class). Instead "MyRunnable" you can use "ArrayHandler".
+
+_Thread_local int tmp; does copy of static block in thread.
+Reentrant and thread-safe
 
  */
         final int LENGTH = 10_000_000;

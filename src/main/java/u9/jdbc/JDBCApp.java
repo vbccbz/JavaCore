@@ -3,26 +3,57 @@ package u9.jdbc;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
+import java.sql.Statement;
+import java.sql.PreparedStatement;
 /*
 "The update counts for the last batch of SQL statements were 100, 20, and 50." This means that the first SQL statement updated 100 rows, the second SQL statement updated 20 rows, and the third SQL statement updated 50 rows.
- */
-            /*
+
 execute() : The method used for all types of SQL statements, and that is, returns a boolean value of TRUE or FALSE. If the method return TRUE, return the ResultSet object and FALSE returns the int value.
 
 executeUpdate() : This method is used for execution of DML statement(INSERT, UPDATE and DELETE) which is return int value, count of the affected rows.
 
 executeQuery() : This method is used to retrieve data from database using SELECT query. This method returns the ResultSet object that returns the data according to the query.
-
-             */
+*/
 
 public class JDBCApp {
 
-    private static java.sql.Connection connection;// interface for connect base
-    private static java.sql.Statement statement;// interface  for query into base
-    private static java.sql.PreparedStatement preparedStatement;//
+    private static Connection connection;// interface for connect base
+    private static Statement statement;// interface  for query into base
+    private static PreparedStatement preparedStatement;//
 
-    public static void main(String[] args)  {
+    public static void connect() throws ClassNotFoundException, SQLException {
+        Class.forName("org.sqlite.JDBC");
+//        static {
+//            try {
+//                DriverManager.registerDriver(new JDBC());
+//            } catch (SQLException var1) {
+//                var1.printStackTrace();
+//            }
+//        }
+
+//        java.util.Properties properties = new java.util.Properties();
+//        properties.setProperty("user", "me");
+//        properties.setProperty("password", "1234");
+//        DriverManager.getConnection("jdbc:sqlite:main.dj", properties);
+        //// "jdbc:posgresql://localhost:5432/jc_student","login","password"
+        connection = DriverManager.getConnection("jdbc:sqlite:main.db");
+        statement = connection.createStatement();
+    }
+
+    public static void disconnect() {
+        try {
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            connection.close();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
 
         try {
             connect();
@@ -43,10 +74,6 @@ public class JDBCApp {
             statement.execute("insert into firsttable (name, score) values ('Ddd', 444);");// autocommit still false!
 
             SEQRS("students");
-
-
-
-
 
 
         } catch (ClassNotFoundException | SQLException exception) {
@@ -87,7 +114,7 @@ public class JDBCApp {
         //connection.setAutoCommit(true);
     }
 
-    public static void SEU () throws SQLException {
+    public static void SEU() throws SQLException {
         //connection.setAutoCommit(false);
         for (int i = 0; i < 1000; ++i) {
             statement.executeUpdate("INSERT INTO students (name, score) VALUES ('Bob', 50)");
@@ -125,35 +152,5 @@ public class JDBCApp {
 
     }
 
-    public static void connect() throws ClassNotFoundException, SQLException {
-        Class.forName("org.sqlite.JDBC");
-//        static {
-//            try {
-//                DriverManager.registerDriver(new JDBC());
-//            } catch (SQLException var1) {
-//                var1.printStackTrace();
-//            }
-//        }
 
-//        java.util.Properties properties = new java.util.Properties();
-//        properties.setProperty("user", "me");
-//        properties.setProperty("password", "1234");
-//        DriverManager.getConnection("jdbc:sqlite:main.dj", properties);
-        //// "jdbc:posgresql://localhost:5432/jc_student","login","password"
-        connection = DriverManager.getConnection("jdbc:sqlite:main.db");
-        statement = connection.createStatement();
-    }
-
-    public static void disconnect() {
-        try {
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            connection.close();
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
-    }
 }

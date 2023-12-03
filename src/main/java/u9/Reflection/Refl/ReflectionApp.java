@@ -2,22 +2,9 @@ package u9.Reflection.Refl;
 
 //import java.lang.*;
 
-import java.lang.reflect.*;
-import java.net.*;
-import java.io.*;
+/*
 
-public class MainApp {
-    public static void main(String[] args) throws NoSuchMethodException, MalformedURLException, ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchFieldException, NoSuchMethodException {
-        File file = null;
-        URL url = null;
-        ClassLoader classLoader = null;
-        Class<?> classR = null;
-        Constructor<?> constructor = null;
-        Object robot = null;
-        Field field = null;
-        Method method = null;
-
-/* work with terminal
+work with terminal
 
 java.lang.String str; works without import.
 import java.lang.String is just alias.
@@ -58,29 +45,53 @@ C:\Users\User\IdeaProjects\JavaTerminal>java -classpath ".\mainDir;.\p.jar" Main
 C:\Users\User\IdeaProjects\JavaTerminal>jar cf p.jar .\personDir\Person.java
 */
 
-        // any .class can be load
-        file = new File("C:\\Users\\User\\Downloads");
-        url = file.toURI().toURL();//???  url = file.toURL();
-        classLoader = new URLClassLoader(new URL[]{ url });
-        classR = classLoader.loadClass("com.Robot");
+import java.lang.reflect.*;
+import java.net.*;
+import java.io.*;
+
+public class ReflectionApp {
+    public static void main(String[] args) throws NoSuchMethodException, MalformedURLException, ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchFieldException {
+
+        java.lang.Object object = null;
+
+        java.lang.Class<?> classR = null;
+
+        java.lang.reflect.Constructor<?> constructor = null;
+        java.lang.reflect.Field field = null;
+        java.lang.reflect.Method method = null;
+
+        classR = Robot.class;// works here, but better is u9.Reflection.Refl.Robot.class;
+        classR = java.lang.Class.forName("u9.Reflection.Refl.Robot");
+        /*
+        only forName() runs only static initializer
+         */
 
         constructor = classR.getConstructor();// ??? void.class isn't need ???
-        robot = constructor.newInstance();// static block is run here
+        object = constructor.newInstance();// static block is run here
         constructor = classR.getConstructor(int.class);
-        robot = constructor.newInstance(1);
-//        robot = classR.newInstance();// ???
+        object = constructor.newInstance(123);
 
-        if (Modifier.isPublic(classR.getModifiers())){
+        if (Modifier.isPublic(classR.getModifiers())) {
             System.out.println("public " + classR.getName());
         }
 
         field = classR.getField("id");// Field[] fields = classR.getFields();
-        field.set(robot, 123);
-        System.out.println(field.getType() + " " + field.getName() + " " + field.get(robot));
+        field.set(object, 123);
+        System.out.println(field.getType() + " " + field.getName() + " " + field.get(object));
 
         method = classR.getMethod("work", int.class);//ethod[] methods = classR.getMethods();
-        method.invoke(robot, 456);
+        method.invoke(object, 456);
 
+
+        java.io.File file = null;
+        java.net.URL url = null;
+        java.lang.ClassLoader classLoader = null;
+
+        // any .class can be load
+        file = new File("C:\\Users\\User\\Downloads");
+        url = file.toURI().toURL();//???  url = file.toURL();
+        classLoader = new URLClassLoader(new URL[]{url});
+        classR = classLoader.loadClass("com.Robot");
 
     }
 }

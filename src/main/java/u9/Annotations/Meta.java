@@ -1,17 +1,17 @@
-package u9.Annotations.Annos;
+package u9.Annotations;
 
 import java.lang.reflect.*;
 import java.lang.annotation.*;
 
-@MyAnno(strangeValue = 1)
+@MyAnnotation(strangeValue = 1)
 public class Meta {
 
-    @MyAnno(strangeValue = 2)
+    @MyAnnotation(strangeValue = 2)
     public void instanceMethod() {
         System.out.println("instanceMethod");
     }
 
-    @MyAnno(strangeValue = 3)
+    @MyAnnotation(strangeValue = 3)
     public static void staticMethod() {
         System.out.println("staticMethod");
     }
@@ -20,11 +20,11 @@ public class Meta {
     public static void main(String[] args) {
         Meta ob = new Meta();
         for (Annotation a : ob.getClass().getAnnotations()) {
-//            System.out.println(a);
+            System.out.println(a);
         }
 
         for (Method m: ob.getClass().getDeclaredMethods()) {
-//            System.out.println(m);
+            System.out.println(m);
             System.out.print(m.getName() + " ");
             for ( Annotation a : m.getAnnotations()){
                 System.out.print(a + " ");

@@ -1,8 +1,8 @@
-package u4.Generics.s0;
+package u4.Generics.s0.FormalTypeParameters;
 
 public class BoxWithSomeApp {
     public static void main(String [] args){
-        BoxWithSome box1;
+        BoxWithSome<Integer> box1;
 
     }
 }

@@ -1,9 +1,13 @@
-package u6.MultiThread.p10_volatile;
+package u6.MultiThread.s7.volatileVariable;
 
 public class WaitNotifyApp {
     private final Object mon = new Object();
     private volatile char nextLetter = 'A';
-    // Each core has cash memory. nexLetter is placed in general memory. The main thread see multiple set operations and caches the nextLetter in the cash memory of the 1 core. The 1 thread on the 1 core changes that data. But the 2 thread on the 2 core gets data from a general memory. The volatile can resolve this problem and denies the caching. But in this example volatile isn't needed here due to synchronized.
+    // Each core has cash memory.
+    // nexLetter is placed in general memory.
+    // The main thread see multiple set operations and caches the nextLetter in the cash memory of the 1 core.
+    // The 1 thread on the 1 core changes that data. But the 2 thread on the 2 core gets data from a general memory.
+    // The volatile can resolve this problem and denies the caching. But in this example volatile isn't needed here due to synchronized.
 
     public static void main(String[] args) {
         WaitNotifyApp waitNotifyApp = new WaitNotifyApp();

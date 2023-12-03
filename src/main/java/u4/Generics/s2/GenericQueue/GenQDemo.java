@@ -1,4 +1,4 @@
-package u4.Generics.s1.GenericQueue;
+package u4.Generics.s2.GenericQueue;
 
 public class GenQDemo {
     public static void main(String[] args) {

@@ -8,6 +8,5 @@ public class Hellower {
         System.out.println(currentTime);
         Greeter greeter = new Greeter();
         System.out.println(greeter.getHello());
-
     }
 }
