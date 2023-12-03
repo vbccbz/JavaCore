@@ -1,4 +1,4 @@
-package u4.Generics.s3.returnBooleanOneParameters;
+package u4.Generics.s3.Lambda.returnBooleanOneParameters;
 
 public class ContainingTypeMethodNameApp {
     public static void main(String[] args) {

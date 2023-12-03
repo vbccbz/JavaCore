@@ -1,4 +1,4 @@
-package u4.Generics.s3.returnVoid;
+package u4.Generics.s3.Lambda.returnBooleanOneParameters;
 
 public class Human {
     public String name;

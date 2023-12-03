@@ -1,4 +1,4 @@
-package u4.Generics.s3.returnBooleanTwoParamteres;
+package u4.Generics.s3.Lambda.returnBooleanTwoParamteres;
 
 @FunctionalInterface
 public interface MyPredicateWithTwoParameters<T1, T2> {

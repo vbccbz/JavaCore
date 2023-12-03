@@ -1,4 +1,4 @@
-package u4.Generics.s3.returnBooleanTwoParamteres;
+package u4.Generics.s3.Lambda.returnBooleanTwoParamteres;
 
 public class ContainingTypeMethodName111App {
     public static void main(String[] args) {

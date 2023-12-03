@@ -1,4 +1,4 @@
-package u4.Generics.s3.NestedClasses;
+package u4.Generics.s3.Lambda.NestedClasses;
 
 public class NestedClassesApp {
     int instance = 1;
