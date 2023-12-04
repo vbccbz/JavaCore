@@ -63,6 +63,7 @@ public class ReflectionApp {
         classR = Robot.class;// works here, but better is u9.Reflection.Refl.Robot.class;
         classR = java.lang.Class.forName("u9.Reflection.Refl.Robot");
         /*
+        class loading than class initialization
         only forName() runs only static initializer
          */
 
@@ -82,15 +83,16 @@ public class ReflectionApp {
         method = classR.getMethod("work", int.class);//ethod[] methods = classR.getMethods();
         method.invoke(object, 456);
 
+        java.lang.annotation.Annotation[] annotations = method.getAnnotations();
+        java.lang.annotation.Annotation annotation = annotations[0];
+        u9.Annotations.MyAnnotation myAnnotation = method.getAnnotation(u9.Annotations.MyAnnotation.class);
 
-        java.io.File file = null;
-        java.net.URL url = null;
-        java.lang.ClassLoader classLoader = null;
 
         // any .class can be load
-        file = new File("C:\\Users\\User\\Downloads");
-        url = file.toURI().toURL();//???  url = file.toURL();
-        classLoader = new URLClassLoader(new URL[]{url});
+        java.io.File file = new File("C:\\Users\\User\\Downloads");
+        java.net.URL url = file.toURI().toURL();//???  url = file.toURL();
+        java.lang.ClassLoader classLoader = new URLClassLoader(new URL[]{url});
+
         classR = classLoader.loadClass("com.Robot");
 
     }
