@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 import static org.hamcrest.CoreMatchers.containsString;
 
 public class GreeterTest {
-    private Greeter greeter = new Greeter();// instance initializer???
+    private Greeter greeter = new Greeter();// instance initializer??? field initialization  by variable initializer
 
     @Test
     public void testGetHello() {
