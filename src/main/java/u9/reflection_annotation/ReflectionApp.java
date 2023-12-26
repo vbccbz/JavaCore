@@ -82,7 +82,8 @@ public class ReflectionApp {
         //4 way
         Robot robot = new Robot();
         classObject = robot.getClass();
-        System.out.println("classObject.getName(): " + classObject.getName());
+        System.out.println("classObject: " + classObject);//class u9.reflection_annotation.Robot
+        System.out.println("classObject.getName(): " + classObject.getName());// u9.reflection_annotation.Robot
 
         int modifiers = classObject.getModifiers();
         if (Modifier.isPublic(modifiers)) {
@@ -96,8 +97,8 @@ public class ReflectionApp {
         object = constructor.newInstance();// static initializer is run here if it is not "forName()" case
 
         field = classObject.getField("id");// Field[] fields = classObject.getFields();
-        System.out.println("field.getType(): " + field.getType());
         System.out.println("field.getName(): " + field.getName());
+        System.out.println("field.getType().getName(): " + field.getType().getName());
         field.set(object, 123);
         System.out.println("field.get(object): " + field.get(object));
 

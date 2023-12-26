@@ -1,7 +1,7 @@
 package u6.multi_thread.s8.home_work.my;
 
-import u6.multi_thread.s8.home_work.my.Stages.Road;
-import u6.multi_thread.s8.home_work.my.Stages.Tunnel;
+import u6.multi_thread.s8.home_work.my.stages.Road;
+import u6.multi_thread.s8.home_work.my.stages.Tunnel;
 
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;

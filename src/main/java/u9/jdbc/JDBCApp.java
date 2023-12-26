@@ -1,14 +1,20 @@
 package u9.jdbc;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+
 /*
+
 "The update counts for the last batch of SQL statements were 100, 20, and 50." This means that the first SQL statement updated 100 rows, the second SQL statement updated 20 rows, and the third SQL statement updated 50 rows.
 
-execute() : The method used for all types of SQL statements, and that is, returns a boolean value of TRUE or FALSE. If the method return TRUE, return the ResultSet object and FALSE returns the int value.
+execute() : The method used for all types of SQL statements, and that is, returns a boolean value of TRUE or FALSE.
+If the method return TRUE, return the ResultSet object and FALSE returns the int value.
 
 executeUpdate() : This method is used for execution of DML statement(INSERT, UPDATE and DELETE) which is return int value, count of the affected rows.
 
@@ -17,66 +23,92 @@ executeQuery() : This method is used to retrieve data from database using SELECT
 
 public class JDBCApp {
 
-    private static Connection connection;// interface for connect base
-    private static Statement statement;// interface  for query into base
-    private static PreparedStatement preparedStatement;//
+    private static Connection connection;
+    private static Statement statement;
+    private static PreparedStatement preparedStatement;
 
-    public static void connect() throws ClassNotFoundException, SQLException {
-        Class.forName("org.sqlite.JDBC");
+    public static void connect() throws SQLException {
+//        java.sql.DriverManager.registerDriver(new org.sqlite.JDBC()); classpath from Maven allows to find org.sqlite.JDBC class
+
+        try {
+//            Class.forName("org.sqlite.JDBC");//isn't needed in new versions???
+//      class JDBC{
 //        static {
 //            try {
-//                DriverManager.registerDriver(new JDBC());
+//                java.sql.DriverManager.registerDriver(new JDBC());// DM is a singleton. org.sqlite.JDBC is an implementation of Driver
 //            } catch (SQLException var1) {
 //                var1.printStackTrace();
 //            }
 //        }
+//        ...
+//      }
 
+            connection = DriverManager.getConnection("jdbc:sqlite:main.db");//sqllite creates new db if there isn't
 //        java.util.Properties properties = new java.util.Properties();
 //        properties.setProperty("user", "me");
 //        properties.setProperty("password", "1234");
-//        DriverManager.getConnection("jdbc:sqlite:main.dj", properties);
-        //// "jdbc:posgresql://localhost:5432/jc_student","login","password"
-        connection = DriverManager.getConnection("jdbc:sqlite:main.db");
-        statement = connection.createStatement();
+//        connection = DriverManager.getConnection("jdbc:sqlite:main.db", properties);
+//        "jdbc:posgresql://localhost:5432/jc_student","login","password"
+
+            statement = connection.createStatement();
+
+//        } catch (SQLException | ClassNotFoundException exception) {// Вместо двух разных удобнее бросать один
+        } catch (SQLException  exception) {// Вместо двух разных удобнее бросать один
+            throw new SQLException("Unable to connect");
+        }
+
     }
 
     public static void disconnect() {
         try {
-            statement.close();
+            statement.close();// better to be before connection.close()
         } catch (SQLException e) {
             e.printStackTrace();
         }
         try {
-            connection.close();
+            connection.close();// do not mistake with autoclose feature ;-)
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
+        // results
+        // preparedstatments
     }
 
     public static void main(String[] args) {
 
         try {
             connect();
+            String query = null;
 
-            statement.execute("drop table firsttable");
+//            query = "CREATE DATABASE lol.db;";// doesn't work this way...
 
-            statement.execute("create table firsttable (id INTEGER primary key autoincrement, name TEXT, score INTEGER);");
-            statement.execute("insert into firsttable (name, score) values ('Aaa', 11);");
+            boolean isResultSet = false;
+            query = "CREATE TABLE IF NOT EXISTS persons (id INTEGER, name TEXT, country TEXT, city TEXT);";
+            isResultSet = statement.execute(query);
 
-            java.sql.Savepoint sp = connection.setSavepoint();// set autocommit(false)
-            statement.execute("insert into firsttable (name, score) values ('Bbb', 22);");// waits commit
-            connection.rollback(sp);// drops exception if there isn't savepoints // deletes waiting statements
-
-            statement.execute("insert into firsttable (name, score) values ('Ccc', 333);");// autocommit still false!
-            connection.commit();// deletes savepoints // save autocomit (false)
-
-            connection.setAutoCommit(true);
-            statement.execute("insert into firsttable (name, score) values ('Ddd', 444);");// autocommit still false!
-
-            SEQRS("students");
+            int countOfAffectedRows = 0;
+            query = "INSERT INTO persons VALUES (1, 'Aa', 'US', 'NY');";
+            countOfAffectedRows = statement.executeUpdate(query);
 
 
-        } catch (ClassNotFoundException | SQLException exception) {
+
+//            statement.execute("create table firsttable (id INTEGER primary key autoincrement, name TEXT, score INTEGER);");
+//            statement.execute("insert into firsttable (name, score) values ('Aaa', 11);");
+
+//            java.sql.Savepoint sp = connection.setSavepoint();// set autocommit(false)
+//            statement.execute("insert into firsttable (name, score) values ('Bbb', 22);");// waits commit
+//            connection.rollback(sp);// drops exception if there isn't savepoints // deletes waiting statements
+
+//            statement.execute("insert into firsttable (name, score) values ('Ccc', 333);");// autocommit still false!
+//            connection.commit();// deletes savepoints // save autocomit (false)
+
+//            connection.setAutoCommit(true);
+//            statement.execute("insert into firsttable (name, score) values ('Ddd', 444);");// autocommit still false!
+
+//            SEQRS("students");
+
+            System.out.println("end");
+        } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
             disconnect();
@@ -85,7 +117,7 @@ public class JDBCApp {
 
     public static void PSEB() throws SQLException {
         //connection.setAutoCommit(false);
-        preparedStatement = connection.prepareStatement("INSERT INTO students (name, score) VALUES (?,?););");
+        preparedStatement = connection.prepareStatement("INSERT INTO students (name, score) VALUES (?,?);");
         for (int i = 0; i < 10; ++i) {
             preparedStatement.setString(1, "Bob");
             preparedStatement.setInt(2, 50);
@@ -123,7 +155,7 @@ public class JDBCApp {
         //connection.setAutoCommit(true);
     }
 
-    public static void statementExecuteUpdate() throws java.sql.SQLException {
+    public static void omgStatementExecuteUpdate() throws java.sql.SQLException {
         //connection.setAutoCommit(false);
 
         //            statement.executeUpdate("DROP TABLE students");

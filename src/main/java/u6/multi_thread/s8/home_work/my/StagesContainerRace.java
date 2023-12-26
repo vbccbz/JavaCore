@@ -1,6 +1,6 @@
 package u6.multi_thread.s8.home_work.my;
 
-import u6.multi_thread.s8.home_work.my.Stages.Stage;
+import u6.multi_thread.s8.home_work.my.stages.Stage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
