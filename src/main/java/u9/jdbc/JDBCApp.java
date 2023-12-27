@@ -27,69 +27,19 @@ public class JDBCApp {
     private static Statement statement;
     private static PreparedStatement preparedStatement;
 
-    public static void connect() throws SQLException {
-//        java.sql.DriverManager.registerDriver(new org.sqlite.JDBC()); classpath from Maven allows to find org.sqlite.JDBC class
-
-        try {
-//            Class.forName("org.sqlite.JDBC");//isn't needed in new versions???
-//      class JDBC{
-//        static {
-//            try {
-//                java.sql.DriverManager.registerDriver(new JDBC());// DM is a singleton. org.sqlite.JDBC is an implementation of Driver
-//            } catch (SQLException var1) {
-//                var1.printStackTrace();
-//            }
-//        }
-//        ...
-//      }
-
-            connection = DriverManager.getConnection("jdbc:sqlite:main.db");//sqllite creates new db if there isn't
-//        java.util.Properties properties = new java.util.Properties();
-//        properties.setProperty("user", "me");
-//        properties.setProperty("password", "1234");
-//        connection = DriverManager.getConnection("jdbc:sqlite:main.db", properties);
-//        "jdbc:posgresql://localhost:5432/jc_student","login","password"
-
-            statement = connection.createStatement();
-
-//        } catch (SQLException | ClassNotFoundException exception) {// Вместо двух разных удобнее бросать один
-        } catch (SQLException  exception) {// Вместо двух разных удобнее бросать один
-            throw new SQLException("Unable to connect");
-        }
-
-    }
-
-    public static void disconnect() {
-        try {
-            statement.close();// better to be before connection.close()
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            connection.close();// do not mistake with autoclose feature ;-)
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
-        // results
-        // preparedstatments
-    }
-
     public static void main(String[] args) {
 
         try {
             connect();
-            String query = null;
+            try(ResultSet rs = statement.executeQuery("SELECT * FROM students;")){
+                while(rs.next()){
+                    System.out.println(rs.getString("name") + rs.getInt("score"));
+                }
+            }catch (SQLException exception){
+                exception.printStackTrace();
+            }
 
 //            query = "CREATE DATABASE lol.db;";// doesn't work this way...
-
-            boolean isResultSet = false;
-            query = "CREATE TABLE IF NOT EXISTS persons (id INTEGER, name TEXT, country TEXT, city TEXT);";
-            isResultSet = statement.execute(query);
-
-            int countOfAffectedRows = 0;
-            query = "INSERT INTO persons VALUES (1, 'Aa', 'US', 'NY');";
-            countOfAffectedRows = statement.executeUpdate(query);
-
 
 
 //            statement.execute("create table firsttable (id INTEGER primary key autoincrement, name TEXT, score INTEGER);");
@@ -107,7 +57,6 @@ public class JDBCApp {
 
 //            SEQRS("students");
 
-            System.out.println("end");
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
@@ -184,5 +133,50 @@ public class JDBCApp {
 
     }
 
+    public static void disconnect() {
+        try {
+            statement.close();// better to be before connection.close()
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            connection.close();// do not mistake with autoclose feature ;-)
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+        // results
+        // preparedstatments
+    }
 
+    public static void connect() throws SQLException {
+//        java.sql.DriverManager.registerDriver(new org.sqlite.JDBC()); classpath from Maven allows to find org.sqlite.JDBC class
+
+        try {
+            Class.forName("org.sqlite.JDBC");//isn't needed in new versions???
+//            class JDBC{
+//            static {
+//                try {
+//                    java.sql.DriverManager.registerDriver(new JDBC());// DM is a singleton. org.sqlite.JDBC is an implementation of Driver
+//                } catch (SQLException var1) {
+//                    var1.printStackTrace();
+//                }
+//            }
+//            ...
+//            }
+
+            connection = DriverManager.getConnection("jdbc:sqlite:main.db");
+//          sqllite creates new db if there isn't
+//          java.util.Properties properties = new java.util.Properties();
+//          properties.setProperty("user", "me");
+//          properties.setProperty("password", "1234");
+//          connection = DriverManager.getConnection("jdbc:sqlite:main.db", properties);
+//          "jdbc:posgresql://localhost:5432/jc_student","login","password"
+
+            statement = connection.createStatement();
+
+        } catch (SQLException | ClassNotFoundException exception) {// Вместо двух разных удобнее бросать один
+            throw new SQLException("Unable to connect");
+        }
+
+    }
 }
