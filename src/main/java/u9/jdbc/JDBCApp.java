@@ -27,36 +27,19 @@ public class JDBCApp {
     private static Statement statement;
     private static PreparedStatement preparedStatement;
 
+
     public static void main(String[] args) {
 
         try {
             connect();
-            try(ResultSet rs = statement.executeQuery("SELECT * FROM students;")){
-                while(rs.next()){
-                    System.out.println(rs.getString("name") + rs.getInt("score"));
-                }
-            }catch (SQLException exception){
-                exception.printStackTrace();
-            }
 
-//            query = "CREATE DATABASE lol.db;";// doesn't work this way...
+            preparedStatement = connection.prepareStatement("INSERT INTO students (name, score) VALUES (?, ?)");
+
+//            batchWithAutoCommitTrue();
+            batchWithAutoCommitFalse();
 
 
-//            statement.execute("create table firsttable (id INTEGER primary key autoincrement, name TEXT, score INTEGER);");
-//            statement.execute("insert into firsttable (name, score) values ('Aaa', 11);");
-
-//            java.sql.Savepoint sp = connection.setSavepoint();// set autocommit(false)
-//            statement.execute("insert into firsttable (name, score) values ('Bbb', 22);");// waits commit
-//            connection.rollback(sp);// drops exception if there isn't savepoints // deletes waiting statements
-
-//            statement.execute("insert into firsttable (name, score) values ('Ccc', 333);");// autocommit still false!
-//            connection.commit();// deletes savepoints // save autocomit (false)
-
-//            connection.setAutoCommit(true);
-//            statement.execute("insert into firsttable (name, score) values ('Ddd', 444);");// autocommit still false!
-
-//            SEQRS("students");
-
+            int debugtrash = 123;
         } catch (SQLException exception) {
             exception.printStackTrace();
         } finally {
@@ -64,73 +47,30 @@ public class JDBCApp {
         }
     }
 
-    public static void PSEB() throws SQLException {
-        //connection.setAutoCommit(false);
-        preparedStatement = connection.prepareStatement("INSERT INTO students (name, score) VALUES (?,?);");
-        for (int i = 0; i < 10; ++i) {
-            preparedStatement.setString(1, "Bob");
-            preparedStatement.setInt(2, 50);
-            preparedStatement.addBatch();
-        }
-        preparedStatement.executeBatch();
-        //connection.commit();
-        //connection.setAutoCommit(true);
-
-    }
-
-    //sql injection
-    //String parm = Integer.toString(1);
-    //String str = "SELECT FROM students WHERE id = " + parm + ";";// 1; DROP TABLE :D
-    // checks existence of students, precompiled ??? // примет только указанные аргументы
-    public static void PSE() throws SQLException {
-        //connection.setAutoCommit(false);
-        preparedStatement = connection.prepareStatement("INSERT INTO students (name, score) VALUES (?, ?); ");
-        for (int i = 0; i < 10; ++i) {
-            // preparedStatement.setObject();
-            preparedStatement.setString(1, "PP " + i);
-            preparedStatement.setInt(2, 0);
-            preparedStatement.execute();
-        }
-        //connection.commit();// сначала 1000 запросов улетает, потом делаем коммит и завершаем транзакцию.
-        //connection.setAutoCommit(true);
-    }
-
-    public static void SEU() throws SQLException {
-        //connection.setAutoCommit(false);
-        for (int i = 0; i < 1000; ++i) {
-            statement.executeUpdate("INSERT INTO students (name, score) VALUES ('Bob', 50)");
-        }
-        //connection.commit();
-        //connection.setAutoCommit(true);
-    }
-
-    public static void omgStatementExecuteUpdate() throws java.sql.SQLException {
-        //connection.setAutoCommit(false);
-
-        //            statement.executeUpdate("DROP TABLE students");
-        statement.executeUpdate("DELETE FROM students");
-        statement.executeUpdate("INSERT INTO students (name, score) VALUES ('Joe', 90 ); INSERT INTO students (name) VALUES ('Boris'); ");
-//        statement.executeUpdate("INSERT INTO students (name) SELECT (name) FROM dudes; ");
-        statement.executeUpdate("UPDATE students SET score = 91 WHERE name == 'Boris'; ");
-        statement.executeUpdate("DELETE FROM students WHERE name = 'Boris';");
-        statement.executeUpdate("DELETE FROM students ");
-
-        //connection.commit();
-        //connection.setAutoCommit(true);
-    }
-
-    public static void SEQRS(String str) throws SQLException {
-        System.out.println("printing...");
-        try (java.sql.ResultSet rs = statement.executeQuery("SELECT id, name, score FROM " + str + ";")) {// rs must be closed BEFORE connection.close()
-            // SELECT * FROM students
-            while (rs.next()) {
-                System.out.println(rs.getInt(1) + " " + rs.getString(2) + " " + rs.getInt(3));
-            }
-        } catch (java.sql.SQLException exception) {
+    private static void clearStudents() {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM students;")) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException exception) {
             exception.printStackTrace();
         }
-        System.out.println("printing end___________________________________");
+    }
 
+    private static void batchWithAutoCommitFalse() throws SQLException {
+        clearStudents();
+
+        for (int i = 0; i < 1000; ++i) {
+            preparedStatement.setString(1, "Kek");
+            preparedStatement.setInt(2, i);
+            preparedStatement.addBatch();
+        }
+//        connection.setAutoCommit(true);
+//        preparedStatement.executeBatch();// slow
+
+        connection.setAutoCommit(false);
+        preparedStatement.executeBatch();// is needed commit()
+        connection.commit();// doesn't setAutoCommit(true)
+//        connection.setAutoCommit(true);// does commit()
+        
     }
 
     public static void disconnect() {
@@ -173,6 +113,8 @@ public class JDBCApp {
 //          "jdbc:posgresql://localhost:5432/jc_student","login","password"
 
             statement = connection.createStatement();
+//            query = "CREATE DATABASE lol.db;";// doesn't work this way...
+
 
         } catch (SQLException | ClassNotFoundException exception) {// Вместо двух разных удобнее бросать один
             throw new SQLException("Unable to connect");
