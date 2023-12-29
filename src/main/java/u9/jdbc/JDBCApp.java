@@ -1,12 +1,7 @@
 package u9.jdbc;
 
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 
 
 /*
@@ -25,20 +20,11 @@ public class JDBCApp {
 
     private static Connection connection;
     private static Statement statement;
-    private static PreparedStatement preparedStatement;
-
 
     public static void main(String[] args) {
-
         try {
             connect();
-
-            preparedStatement = connection.prepareStatement("INSERT INTO students (name, score) VALUES (?, ?)");
-
-//            batchWithAutoCommitTrue();
-            batchWithAutoCommitFalse();
-
-
+            rollback();
             int debugtrash = 123;
         } catch (SQLException exception) {
             exception.printStackTrace();
@@ -47,30 +33,40 @@ public class JDBCApp {
         }
     }
 
-    private static void clearStudents() {
-        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM students;")) {
-            preparedStatement.executeUpdate();
+    private static void rollback() throws SQLException {
+        clearStudents();
+        connection.setAutoCommit(false);
+        statement.executeUpdate("INSERT INTO students(name, score) VALUES ('Aaa', 123)");
+        Savepoint savepoint1 = connection.setSavepoint();// actually sets setAutoCommit(false) ???
+        statement.executeUpdate("INSERT INTO students(name, score) VALUES ('Bbb', 123)");
+        connection.rollback(savepoint1);
+        statement.executeUpdate("INSERT INTO students(name, score) VALUES ('Ccc', 123)");
+        connection.commit();// and savepoints are deleted
+    }
+
+    private static void batchWithAutoCommitFalse() throws SQLException {
+        clearStudents();
+        try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO students (name,score) VALUES(?, ?);")) {
+            for (int i = 0; i < 1000; ++i) {
+//            careful: doesn't check types corresponding, SQL easy load String into INTEGER...
+                preparedStatement.setString(1, "Kek");
+                preparedStatement.setInt(2, i);
+                preparedStatement.addBatch();
+            }
+//        connection.setAutoCommit(true);
+//        int[] results = preparedStatement.executeBatch();// slow
+            connection.setAutoCommit(false);
+            int[] results = preparedStatement.executeBatch();// is needed commit(), results becomes BEFORE end of transaction
+            connection.commit();// doesn't setAutoCommit(true)
+//        connection.setAutoCommit(true);// does commit()
+
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
     }
 
-    private static void batchWithAutoCommitFalse() throws SQLException {
-        clearStudents();
-
-        for (int i = 0; i < 1000; ++i) {
-            preparedStatement.setString(1, "Kek");
-            preparedStatement.setInt(2, i);
-            preparedStatement.addBatch();
-        }
-//        connection.setAutoCommit(true);
-//        preparedStatement.executeBatch();// slow
-
-        connection.setAutoCommit(false);
-        preparedStatement.executeBatch();// is needed commit()
-        connection.commit();// doesn't setAutoCommit(true)
-//        connection.setAutoCommit(true);// does commit()
-        
+    private static void clearStudents() throws SQLException {
+        statement.executeUpdate("DELETE FROM students;");
     }
 
     public static void disconnect() {

@@ -1,48 +1,50 @@
 package u9.reflection_annotation;
 
-//import java.lang.*;
+import java.lang.*;
 
 /*
 
-work with terminal
+~/jt
+$ ls
+appsrc/
+    App.java
+peoplesrc/
+    people/
+        Person.java
+peoplebin/
+    people/
+        Person.class
 
-java.lang.String str; works without import.
-import java.lang.String is just alias.
-import java.lang.* exists by default
-
-Person person = new Person();// needs Person.java
-classR = mst.getClass();
-classR = Person.class;
-
-Person.java must be connected to javac via -sourcepath or -classpath or maven or etc.
-javac works only with *.java
-C:\Users\User\IdeaProjects\JavaTerminal\spaceDir>javac -sourcepath "C:\Users\User\IdeaProjects\JavaTerminal\personDir" C:\Users\User\IdeaProjects\JavaTerminal\mainDir\*.java C:\Users\User\IdeaProjects\JavaTerminal\mainDir\someAnotherFileThatShouldBeCompiled.java -d C:\bin
-
-Person.class must be connected to java via -classpath or maven or etc.
-java works only with .class files only with their pure names.
-The loaded Main.class must be the last parameter.
-
-C:\Users\User\IdeaProjects\JavaTerminal\spaceDir>java -classpath C:\Users\User\IdeaProjects\JavaTerminal\personDirC:\Users\User\IdeaProjects\JavaTerminal\mainDir Main
-
-classR = Class.forName("Person");// needs Person.class
-
-C:\Users\User\IdeaProjects\JavaTerminal\spaceDir>java -classpath C:\Users\User\IdeaProjects\JavaTerminal\personDir;C:\Users\User\IdeaProjects\JavaTerminal\mainDir Main
-
-IDEA ---> project with main() ---> config ---> create .jar ----> import .jar in the project libraries
-
-C:\Users\User\IdeaProjects\JavaTerminal\personDir> jar cf p.jar .\Person.java
-move p.jar to C:\
-
-Doesn't work in gitbash
-C:\Users\User\IdeaProjects\JavaTerminal\mainDir>java -classpath .;C:\Users\User\IdeaProjects\JavaTerminal\p.jar Main
+~/jt
+javac -sourcepath '[dir][;dirs]...' [file-path.ext ]...
+$  javac -sourcepath './peoplesrc/;' ./appsrc/*.java -d 'spbin'   (but -classpath works here too...)
+spbin/
+    App.class
+    people/
+        Person.class
+~/jt
+$ java -classpath './spbin/;' App
 ok
-Person static block
+I am a Person
+
+~/jt
+javac -classpath '[dir][;dirs]...' [file-path.ext ]...
+$ javac -classpath './peoplebin/;' ./appsrc/*.java -d 'cpbin'
+cpbin/
+    App.class
+~/jt
+$ java -classpath './peoplebin/;./cpbin/;' App
+ok
+I am a Person
 
 
-C:\Users\User\IdeaProjects\JavaTerminal>javac -classpath ".\p.jar" .\mainDir\Main.java
-C:\Users\User\IdeaProjects\JavaTerminal>java -classpath ".\mainDir;.\p.jar" Main
+"C:\"
+'C:\'
+'C://'
 
-C:\Users\User\IdeaProjects\JavaTerminal>jar cf p.jar .\personDir\Person.java
+
+"import" doesn't mean "to import", it is just an alias. Linking occurs by -classpath.
+
 */
 
 import java.lang.*;
