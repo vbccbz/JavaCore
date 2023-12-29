@@ -75,17 +75,16 @@ public class ReflectionApp {
         classObject = java.lang.Class.forName("u9.reflection_annotation.Robot");// ONLY forName() runs static initializer !!!
         //2 way
         classObject = Robot.class;// works here
-        classObject = Robot.class;// works everywhere
+        classObject = u9.reflection_annotation.Robot.class;// works everywhere
         //3 way
+        classObject = new Robot().getClass();
+        System.out.println("classObject: " + classObject);//class u9.reflection_annotation.Robot
+        System.out.println("classObject.getName(): " + classObject.getName());// u9.reflection_annotation.Robot
+        //4 way
         File file = new File("C:\\Users\\User\\JavaCore\\src\\main\\java\\"); // any .class can be load
         URL url = file.toURI().toURL();// file.toURL(); is deprecated
         ClassLoader classLoader = new URLClassLoader(new URL[]{url});// doesn't work in maven exec:java // Failed to execute goal org.codehaus.mojo:exec-maven-plugin:1.2.1:exec (default-cli) on project JavaCore: The parameters 'executable' for goal org.codehaus.mojo:exec-maven-plugin:1.2.1:exec are missing or invalid
         classObject = classLoader.loadClass("u9.reflection_annotation.Robot");
-        //4 way
-        Robot robot = new Robot();
-        classObject = robot.getClass();
-        System.out.println("classObject: " + classObject);//class u9.reflection_annotation.Robot
-        System.out.println("classObject.getName(): " + classObject.getName());// u9.reflection_annotation.Robot
 
         int modifiers = classObject.getModifiers();
         if (Modifier.isPublic(modifiers)) {
