@@ -1,8 +1,8 @@
-package u4.generics.s0.pecs;
+package u4.generics.s0;
 
 import java.util.*;
 
-public class WildBound {
+public class PecsApp {
     public static void main(String[] args) {
         SomeClass1 c1;
         SomeClass2 c2;

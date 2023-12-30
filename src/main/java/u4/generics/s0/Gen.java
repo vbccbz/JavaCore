@@ -1,4 +1,4 @@
-package u4.generics.s0.formal_type_parameters;
+package u4.generics.s0;
 
 /**
  *
@@ -13,18 +13,18 @@ package u4.generics.s0.formal_type_parameters;
  *     This is a declaration of the formal type parameter T ( type variables, параметр типа, тИповый параметр).
  *     A type variable is an unqualified identifier used as a type in class, interface, static and non-static methods, and constructor bodies.
  *
- * public class BoxWithSome<T>{ }
+ * public class Gen<T>{ }
  *     is a generic type declaration (it is compiled once).
  *     A class is generic if it declares one or more type variables (§4.4).
  *
- * Box<Integer> integerBox;
+ * Gen<Integer> integerBox;
  *     is a generic type invocation (an invocation of a generic type) with an actual type argument Integer.
  *     Therefore, the declaration denotes a parameterized type.
  *
- * new Box<Integer>();
- *     is a generic type instantiation (an instantiation of a generic type Box) with actual type argument Integer.
+ * new Gen<Integer>();
+ *     is a generic type instantiation (an instantiation of a generic type Gen) with actual type argument Integer.
  *
- * OrderedPair<String, Box<Integer>> p;
+ * OrderedPair<String, Gen<Integer>> p;
  *     is a substituting a type parameter K with non-primitive type String and V with a parameterized type List<String>.
  *
  * ?
@@ -39,15 +39,8 @@ package u4.generics.s0.formal_type_parameters;
  *
  */
 
-public class BoxWithSome<T> {
-    public T t;
-
-    public void set(T t) {
-
-    }
-
-    public T get() {
-        return t;
-    }
-
+public class Gen<T> {
+    T t;
+    public void add(T t){ this.t = t;}
+    public T get(){ return t; }
 }

@@ -1,4 +1,4 @@
-package u4.generics.s1.arrays_varargs;
+package u4.generics.s0;
 
 import java.lang.reflect.Array;
 
