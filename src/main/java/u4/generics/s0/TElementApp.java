@@ -13,10 +13,8 @@ public class TElementApp {
     static <T> void element(T element) {
     }
 
-      public static void main(String[] args) {
-
+    public static void main(String[] args) {
         TElementApp.<int[]>element(new int[]{1, 2, 3});
         TElementApp.<Integer[]>element(new Integer[]{1, 2, 3});
-
     }
 }

@@ -14,13 +14,13 @@ public class TVarargApp {
     }
 
     public static void main(String[] args) {
-
-        TVarargApp.<Integer>varArg(1, 2, 3);// autoboxing, length = 3
-        TVarargApp.<Integer>varArg(Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3));// length = 3
+        //!TVarargApp.<int>varArg(new int[]{1, 2, 3});
         TVarargApp.<Integer>varArg(new Integer[]{1, 2, 3});// length = 3
 
-        TVarargApp.<int[]>varArg(new int[]{1, 2, 3});// length = 1
-        TVarargApp.<Integer[]>varArg(new Integer[]{1, 2, 3});// length = 1
+        TVarargApp.<Integer>varArg(1, 2, 3);// autoboxing, length = 3
+
+        varArg(new int[]{1, 2, 3});// !!!
+        TVarargApp.<int[]>varArg(new int[]{1, 2, 3}, new int[]{1, 2, 3}, new int[]{1, 2, 3});// !!!
 
     }
 }

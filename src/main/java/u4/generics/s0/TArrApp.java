@@ -14,8 +14,9 @@ public class TArrApp {
     }
 
     public static void main(String[] args) {
+        //!TArrApp.<int>array(new int[]{1,2,3});
+        //!TArrApp.<int[]>array(new int[]{1,2,3});
 
-        TArrApp.<int[]>array(new int[2][3]);//
         TArrApp.<Integer>array(new Integer[]{1, 2, 3});
     }
 }
