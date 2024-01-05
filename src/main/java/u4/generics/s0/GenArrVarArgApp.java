@@ -11,8 +11,10 @@ java.lang.Integer
 public class GenArrVarArgApp {
     static <T> void element(T element) {
     }
+
     static <T> void varArg(T... array) {// If the last formal parameter is a variable arity parameter of type T, it is considered to define a formal parameter of type T[] ; JLS 8.4.1 Format parameters
     }
+
     static <T> void array(T[] array) {
     }
 
