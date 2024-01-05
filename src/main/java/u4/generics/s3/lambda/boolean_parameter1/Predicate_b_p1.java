@@ -1,7 +1,7 @@
-package u4.generics.s3.lambda.return_boolean_one_parameters;
+package u4.generics.s3.lambda.boolean_parameter1;
 
 @FunctionalInterface
-public interface MyPredicateWithOneParameters<T> {
+public interface Predicate_b_p1<T> {
     boolean test(T t);
 }
 

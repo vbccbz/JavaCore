@@ -1,4 +1,4 @@
-package u4.generics.s3.lambda.lambda_interpretation;
+package u4.generics.s3.lambda.static_methods;
 
 public interface VoidFaceInt {
     void action(int i);

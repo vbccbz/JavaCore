@@ -1,4 +1,4 @@
-package u4.generics.s3.lambda.return_boolean_one_parameters;
+package u4.generics.s3.lambda;
 
 public class Human {
     public String name;

@@ -42,7 +42,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.2.1</version>
                 <configuration>
-                    <mainClass>hello.LetsDoSomeApp</mainClass>
+                    <mainClass>hello.HellowerApp</mainClass>
                     <arguments>
                         <argument>argument1</argument>
                     </arguments>
