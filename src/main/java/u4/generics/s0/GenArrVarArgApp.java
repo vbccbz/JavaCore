@@ -23,8 +23,8 @@ public class GenArrVarArgApp {
         //!GenArrVararg.<int>array(new int[]{1,2,3});// T != int
         GenArrVarArgApp.<Integer>array(new Integer[]{1, 2, 3});// T = Integer
 
-        //!GenArrVarArgApp.<int>varArg(new int[]{1, 2, 3});
-        GenArrVarArgApp.<Integer>varArg(1, 2, 3);// autoboxing, length = 3, new Integer[]{1, 2, 3}
+        //!GenArrVarArgApp.<int>varArg(new int[]{1, 2, 3});// T != int
+        GenArrVarArgApp.<Integer>varArg(1, 2, 3);// autoboxing into new Integer[]{1, 2, 3}, length = 3
 
         // !!!ATTENTION!!!
         GenArrVarArgApp.<int[]>varArg(new int[]{1, 2, 3});
