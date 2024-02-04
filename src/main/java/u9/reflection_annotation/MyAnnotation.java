@@ -8,5 +8,5 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)// CLASS (???), SOURCE (e.g. @Override)
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.CONSTRUCTOR, ElementType.METHOD})
 public @interface MyAnnotation {
-    int strangeValue();
+    int strangeValue();//int value() can be used without value = 123
 }

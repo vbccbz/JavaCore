@@ -1,4 +1,4 @@
-package u4.generics.s3.lambda;
+package u4.generics.s3;
 
 public class Human {
     public String name;

@@ -1,4 +1,4 @@
-package u4.generics.s3.lambda.nested_classes;
+package u4.generics.s3.nested_classes;
 
 public class NestedClassesApp {
     int field = 1;

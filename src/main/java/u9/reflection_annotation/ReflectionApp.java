@@ -16,7 +16,7 @@ peoplebin/
         Person.class
 
 ~/jt
-javac -sourcepath '[dir][;dirs]...' [file-path.ext ]...
+javac -sourcepath '[dir][;dirs]...' [full_file_path/*.ext ]...
 $  javac -sourcepath './peoplesrc/;' ./appsrc/*.java -d 'spbin'   (but -classpath works here too...)
 spbin/
     App.class
@@ -54,7 +54,7 @@ import java.lang.reflect.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import  java.io.File;
+import java.io.File;
 import java.net.*;
 import java.net.URL;
 import java.lang.annotation.Annotation;
@@ -78,13 +78,14 @@ public class ReflectionApp {
         classObject = u9.reflection_annotation.Robot.class;// works everywhere
         //3 way
         classObject = new Robot().getClass();
-        System.out.println("classObject: " + classObject);//class u9.reflection_annotation.Robot
-        System.out.println("classObject.getName(): " + classObject.getName());// u9.reflection_annotation.Robot
         //4 way
         File file = new File("C:\\Users\\User\\JavaCore\\src\\main\\java\\"); // any .class can be load
         URL url = file.toURI().toURL();// file.toURL(); is deprecated
         ClassLoader classLoader = new URLClassLoader(new URL[]{url});// doesn't work in maven exec:java // Failed to execute goal org.codehaus.mojo:exec-maven-plugin:1.2.1:exec (default-cli) on project JavaCore: The parameters 'executable' for goal org.codehaus.mojo:exec-maven-plugin:1.2.1:exec are missing or invalid
         classObject = classLoader.loadClass("u9.reflection_annotation.Robot");
+
+        System.out.println("classObject: " + classObject);//class u9.reflection_annotation.Robot
+        System.out.println("classObject.getName(): " + classObject.getName());// u9.reflection_annotation.Robot
 
         int modifiers = classObject.getModifiers();
         if (Modifier.isPublic(modifiers)) {
@@ -106,25 +107,6 @@ public class ReflectionApp {
         method = classObject.getMethod("set", int.class);//Method[] methods = classObject.getMethods();
         method.invoke(object, 456);
 
-        for( Annotation annotation : classObject.getAnnotations() ){
-            System.out.println(annotation);
-        }
-        System.out.println();
-        for( Annotation annotation : field.getAnnotations() ){
-            System.out.println(annotation);
-        }
-        System.out.println();
-        for( Annotation annotation : constructor.getAnnotations() ){
-            System.out.println(annotation);
-        }
-        System.out.println();
-        for( Annotation annotation : method.getAnnotations() ){
-            System.out.println(annotation);
-        }
-        System.out.println();
-
-
-        MyAnnotation myAnnotation = method.getAnnotation(MyAnnotation.class);
 
 
     }

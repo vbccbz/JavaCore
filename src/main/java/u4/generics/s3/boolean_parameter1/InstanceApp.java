@@ -1,6 +1,6 @@
-package u4.generics.s3.lambda.boolean_parameter1;
+package u4.generics.s3.boolean_parameter1;
 
-import u4.generics.s3.lambda.Human;
+import u4.generics.s3.Human;
 
 public class InstanceApp {
     public static void main(String[] args) {

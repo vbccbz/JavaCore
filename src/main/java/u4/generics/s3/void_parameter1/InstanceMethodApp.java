@@ -1,6 +1,6 @@
-package u4.generics.s3.lambda.void_parameter1;
+package u4.generics.s3.void_parameter1;
 
-import u4.generics.s3.lambda.Human;
+import u4.generics.s3.Human;
 
 public class InstanceMethodApp {
 
