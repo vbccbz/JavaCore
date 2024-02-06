@@ -1,4 +1,4 @@
-package u2.oop.homework;
+package u2.homework;
 
 public class Human implements Participant {
     private int runStatus;

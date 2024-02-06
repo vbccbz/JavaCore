@@ -1,4 +1,4 @@
-package u2.oop.homework;
+package u2.homework;
 
 public abstract class Obstacle {
     protected int dimensions;

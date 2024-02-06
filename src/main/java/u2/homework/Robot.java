@@ -1,4 +1,4 @@
-package u2.oop.homework;
+package u2.homework;
 
 public class Robot implements Participant {
     protected void prtc(){}

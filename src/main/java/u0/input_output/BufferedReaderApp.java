@@ -4,7 +4,8 @@ import java.io.*;
 
 public class BufferedReaderApp {
     public static String getString() throws IOException {
-        InputStreamReader isr = new InputStreamReader(System.in);
+//        InputStreamReader isr = new InputStreamReader(System.in);
+        Reader isr = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(isr);
         String s = br.readLine();
         return s;
