@@ -6,9 +6,9 @@ public class TwoArrayApp {
     public static void main(String[] args) {
 /*
 Process
+    Files(???)
     Code(Text)
     Data(statics)
-    Files(???)
     Threads
         Registers
         Stack

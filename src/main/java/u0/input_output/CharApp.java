@@ -27,17 +27,8 @@ public class CharApp {
         String s2 = "hell";
         s2+="o";
 
-        System.out.println(compareStrings(s1, s2));
-        System.out.println(compareStrings2(s1, s2));
-
         Integer a = 100;
         int c = 100;
         System.out.println("!!!" + (a==c) );
-    }
-
-    public static boolean compareStrings(String s1, String s2) {return s1==s2;}
-
-    public static boolean compareStrings2(String s1, String s2) {
-        return s1.equals(s2);
     }
 }

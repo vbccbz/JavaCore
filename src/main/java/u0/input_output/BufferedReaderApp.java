@@ -4,11 +4,9 @@ import java.io.*;
 
 public class BufferedReaderApp {
     public static String getString() throws IOException {
-//        InputStreamReader isr = new InputStreamReader(System.in);
-        Reader isr = new InputStreamReader(System.in);
-        BufferedReader br = new BufferedReader(isr);
-        String s = br.readLine();
-        return s;
+//        return new BufferedReader(new InputStreamReader(System.in)).readLine();
+//        return new BufferedReader(new InputStreamReader(new FileInputStream("input.txt"))).readLine();
+        return new BufferedReader(new FileReader("input.txt")).readLine();
     }
 
     public static char getChar() throws IOException {
@@ -55,6 +53,19 @@ public class BufferedReaderApp {
     }
 
     public static void main(String[] args) {
+        try (FileInputStream is = new FileInputStream("input.txt");) {
+            char symbol = (char) is.read();
+            int trash = 0;
+        } catch (IOException exception) {
+
+        }
+
+        try (InputStreamReader r = new InputStreamReader(new FileInputStream("input.txt"));) {
+            char symbol = (char) r.read();
+            int trash = 0;
+        } catch (IOException exception) {
+
+        }
 
         String str = null;
 

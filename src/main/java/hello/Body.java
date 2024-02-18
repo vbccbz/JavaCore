@@ -5,4 +5,9 @@ public class Body extends AbstractBody {
     public void m2() {
 
     }
+
+    @Override
+    public void m1() {
+
+    }
 }
