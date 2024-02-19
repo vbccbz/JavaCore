@@ -1,4 +1,4 @@
-package u4.generics.s3;
+package u4.generics.s3.references;
 
 public class Human {
     public String name;

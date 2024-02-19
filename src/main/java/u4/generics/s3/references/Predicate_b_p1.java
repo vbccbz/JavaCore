@@ -1,4 +1,4 @@
-package u4.generics.s3.boolean_parameter1;
+package u4.generics.s3.references;
 
 @FunctionalInterface
 public interface Predicate_b_p1<T> {
