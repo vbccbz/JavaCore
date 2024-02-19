@@ -113,7 +113,7 @@ public class App {
         result = face2.test(hum, other);// return hum.takeHuman(other);
 
         ConstructRef<Human> cr = Human::new;
-        Human last = cr.fucn("New");
+        Human last = cr.func("New");
 
     }
 }
