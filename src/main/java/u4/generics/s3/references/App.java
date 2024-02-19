@@ -69,6 +69,7 @@ public class App {
                 return;
             }
         };
+        //wtf hum = new Human();//Variable 'hum' is accessed from within inner class, needs to be final or effectively final
 
         result = predicate.test(other);
         consumer.accept(hum);
@@ -110,6 +111,9 @@ public class App {
             }
         };
         result = face2.test(hum, other);// return hum.takeHuman(other);
+
+        ConstructRef<Human> cr = Human::new;
+        Human last = cr.fucn("New");
 
     }
 }
