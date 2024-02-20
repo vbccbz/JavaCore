@@ -9,11 +9,16 @@ public class Human {
 
     public boolean takeVoid() {
         System.out.println(this.name);
-        return false;
+        return true;
     }
 
-    public boolean takeHuman(Human h){
-        System.out.println(this.name + " " + h.name );
+    public boolean takeHuman(Human human){
+        System.out.println(this.name + " " + human.name );
+        return true;
+    }
+
+    public boolean compareHumans(Human human, Human human2){
+        System.out.println(this.name + " "+ human.name + " " + human2.name );
         return true;
     }
 }

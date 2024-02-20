@@ -6,16 +6,24 @@ public class App {
         return false;
     }
 
-    public static boolean takeHuman(Human h) {
-        System.out.println(h.name);
+    public static boolean takeHuman(Human human) {
+        System.out.println(human.name);
+        return true;
+    }
+
+    public static boolean compareHumans(Human human, Human human2){
         return true;
     }
 
     public static void main(String[] args) {
         boolean result = false;
 
-        Human hum = new Human("HUM");
-        Human other = new Human("OTHER");
+        ConstructRef<Human> cr = Human::new;
+        Human example = cr.func("New");
+
+        Human first = new Human("first");
+        Human second = new Human("second");
+        Human third = new Human("third");
 
         /*
         Reference to a static method
@@ -23,9 +31,9 @@ public class App {
         Person::compareByAge , MethodReferencesExamples::appendStrings
         */
 
-        Predicate_b_p1<Human> predicate = App::takeHuman;
-        Consumer_v_p1<Human> consumer = App::takeHuman;
-        ;
+        Consumer_v_p1<Human> consumer = null;
+        Predicate_b_p1<Human> predicate = null;
+        Predicate_b_p1_p2<Human, Human> predicate2 = null;
 
         predicate = new Predicate_b_p1<Human>() {
             @Override
@@ -34,6 +42,7 @@ public class App {
                 return App.takeHuman(human);
             }
         };
+
         consumer = new Consumer_v_p1<Human>() {
             @Override
             public void accept(Human human) {
@@ -43,44 +52,35 @@ public class App {
             }
         };
 
-        result = predicate.test(hum);
-        consumer.accept(hum);
-
         /*
         Reference to an instance method of a particular object
         containingObject::instanceMethodName
         myComparisonProvider::compareByName , myApp::appendStrings2
         */
-        predicate = hum::takeHuman;
-        consumer = hum::takeHuman;
 
         predicate = new Predicate_b_p1<Human>() {
             @Override
             public boolean test(Human human) {
-                //!return hum.takeVoid(human)
-                return hum.takeHuman(human);
+                //!return first.takeVoid(human)
+                return first.takeHuman(human);
             }
         };
+
         consumer = new Consumer_v_p1<Human>() {
             @Override
             public void accept(Human human) {
-                //!hum.takeVoid(human);
-                hum.takeHuman(human);
+                //!first.takeVoid(human);
+                first.takeHuman(human);
                 return;
             }
         };
-        //wtf hum = new Human();//Variable 'hum' is accessed from within inner class, needs to be final or effectively final
-
-        result = predicate.test(other);
-        consumer.accept(hum);
+        //wtf first = new Human();//Variable 'first' is accessed from within inner class, needs to be final or effectively final
 
         /*
         Reference to an instance method of an arbitrary object of a particular type
         ContainingType::methodName
         String::compareToIgnoreCase , String::concat
         */
-        predicate = Human::takeVoid;
-        consumer = Human::takeVoid;
 
         predicate = new Predicate_b_p1<Human>() {
             @Override
@@ -98,22 +98,48 @@ public class App {
             }
         };
 
-        result = predicate.test(hum);
-        consumer.accept(hum);
-
-
-        Predicate_b_p1_p2<Human, Human> face2 = Human::takeHuman;
-        face2 = new Predicate_b_p1_p2<Human, Human>() {
+        predicate2 = new Predicate_b_p1_p2<Human, Human>() {
             @Override
             public boolean test(Human human, Human human2) {
-                //!return human.takeVoid(human2);
                 return human.takeHuman(human2);
             }
         };
-        result = face2.test(hum, other);// return hum.takeHuman(other);
 
-        ConstructRef<Human> cr = Human::new;
-        Human last = cr.func("New");
+        predicate2 = new Predicate_b_p1_p2<Human, Human>() {
+            @Override
+            public boolean test(Human human, Human human2) {
+                return third.compareHumans(human, human2);
+            }
+        };
+
+
+
+        consumer = App::takeHuman;
+        consumer.accept(first);//App.takeHuman(first)
+
+        consumer = first::takeHuman;
+        consumer.accept(second);//first.takeHuman(second)
+
+        consumer = Human::takeVoid;
+        consumer.accept(first);//first.takeVoid()
+
+        predicate = App::takeHuman;
+        result = predicate.test(first);//App.takeHuman(first)
+
+        predicate = first::takeHuman;
+        result = predicate.test(second);//first.takeHuman(second)
+
+        predicate = Human::takeVoid;
+        result = predicate.test(first);// first.takeVoid()
+
+        predicate2 = App::compareHumans;
+        predicate2.test(first, second);//App.compareHumans(first,second)
+
+        predicate2 = third::compareHumans;
+        result = predicate2.test(first, second);//third.compareHumans(first, second)
+
+        predicate2 = Human::takeHuman;
+        result = predicate2.test(first, second);//first.takeHuman(second)
 
     }
 }
