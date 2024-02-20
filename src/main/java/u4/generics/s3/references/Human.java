@@ -12,7 +12,7 @@ public class Human {
         return true;
     }
 
-    public boolean takeHuman(Human human){
+    public boolean compare(Human human){
         System.out.println(this.name + " " + human.name );
         return true;
     }

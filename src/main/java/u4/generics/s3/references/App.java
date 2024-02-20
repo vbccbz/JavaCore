@@ -62,7 +62,7 @@ public class App {
             @Override
             public boolean test(Human human) {
                 //!return first.takeVoid(human)
-                return first.takeHuman(human);
+                return first.compare(human);
             }
         };
 
@@ -70,7 +70,7 @@ public class App {
             @Override
             public void accept(Human human) {
                 //!first.takeVoid(human);
-                first.takeHuman(human);
+                first.compare(human);
                 return;
             }
         };
@@ -101,7 +101,7 @@ public class App {
         predicate2 = new Predicate_b_p1_p2<Human, Human>() {
             @Override
             public boolean test(Human human, Human human2) {
-                return human.takeHuman(human2);
+                return human.compare(human2);
             }
         };
 
@@ -117,8 +117,8 @@ public class App {
         consumer = App::takeHuman;
         consumer.accept(first);//App.takeHuman(first)
 
-        consumer = first::takeHuman;
-        consumer.accept(second);//first.takeHuman(second)
+        consumer = first::compare;
+        consumer.accept(second);//first.compare(second)
 
         consumer = Human::takeVoid;
         consumer.accept(first);//first.takeVoid()
@@ -126,8 +126,8 @@ public class App {
         predicate = App::takeHuman;
         result = predicate.test(first);//App.takeHuman(first)
 
-        predicate = first::takeHuman;
-        result = predicate.test(second);//first.takeHuman(second)
+        predicate = first::compare;
+        result = predicate.test(second);//first.compare(second)
 
         predicate = Human::takeVoid;
         result = predicate.test(first);// first.takeVoid()
@@ -138,8 +138,8 @@ public class App {
         predicate2 = third::compareHumans;
         result = predicate2.test(first, second);//third.compareHumans(first, second)
 
-        predicate2 = Human::takeHuman;
-        result = predicate2.test(first, second);//first.takeHuman(second)
+        predicate2 = Human::compare;
+        result = predicate2.test(first, second);//first.compare(second)
 
     }
 }
