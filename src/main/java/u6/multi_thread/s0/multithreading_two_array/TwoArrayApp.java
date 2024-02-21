@@ -7,8 +7,8 @@ public class TwoArrayApp {
 /*
 Process
     Files(???)
-    Code(Text)
     Data(statics)
+    Code(Text)
     Threads
         Registers
         Stack

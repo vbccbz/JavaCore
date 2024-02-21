@@ -3,6 +3,24 @@ package u9.reflection_annotation;
 import java.lang.*;
 
 /*
+Unix:
+User ~/CurrentPath
+$ command
+
+Win:
+CurrentPath> command
+
+Идея плохо определяет workind directory, javac и java норм.
+C:\Users\User\JavaCore>C:\Users\User\ideaIU-2020.1.windows\bin\idea64.exe "C:\Users\User\JavaCore"
+ok
+C:\Users\User\JavaCore>C:\Users\User\ideaIU-2020.1.windows\bin\idea64.exe "."
+open project with name '.'
+idea64.exe works bad with "." argument as "current dir" and opens project with name '.'. The better solution is to add 
+[HKEY_CLASSES_ROOT\Directory\Background\shell\Idea here\command]
+@="\"C:\\Users\\User\\ideaIU-2020.1.windows\\bin\\idea64.exe\" %V"
+
+.java может содержать сколько угодно классов default или private. 
+javac компилирует public класс ТОЛЬКО если класс находится в одноимённом файле.
 
 ~/jt
 $ ls
@@ -15,8 +33,8 @@ peoplebin/
     people/
         Person.class
 
+javac [-sourcepath 'dir[;dir]...'] <path/*.java [path/*.java]...>
 ~/jt
-javac -sourcepath '[dir][;dirs]...' [full_file_path/*.ext ]...
 $  javac -sourcepath './peoplesrc/;' ./appsrc/*.java -d 'spbin'   (but -classpath works here too...)
 spbin/
     App.class
@@ -27,8 +45,8 @@ $ java -classpath './spbin/;' App
 ok
 I am a Person
 
+javac [-classpath '[dir][;dirs]...'] <path/*.java [path/*.java]...>
 ~/jt
-javac -classpath '[dir][;dirs]...' [file-path.ext ]...
 $ javac -classpath './peoplebin/;' ./appsrc/*.java -d 'cpbin'
 cpbin/
     App.class
