@@ -12,7 +12,7 @@ Process
     Threads
         Registers
         Stack
-        Each thread has separate heap block.
+        Heap(each thread has separate heap block)
 
 True parallel can work only on at least 2 core.
 
@@ -46,8 +46,8 @@ Reentrant and thread-safe
         System.arraycopy(floats, 0, floats1, 0, HALF);
         System.arraycopy(floats, HALF, floats2, 0, HALF);
 
-        Thread thread1 = new Thread(new MyRunnable(floats1));
-        Thread thread2 = new Thread(new MyRunnable(floats2));
+        Thread thread1 = new Thread(new BodyOfThread(floats1));
+        Thread thread2 = new Thread(new BodyOfThread(floats2));
 
         thread1.start();// recalling a start() after the end of thread is an error.
         thread2.start();

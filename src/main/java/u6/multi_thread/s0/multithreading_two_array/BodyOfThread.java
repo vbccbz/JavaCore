@@ -1,9 +1,9 @@
 package u6.multi_thread.s0.multithreading_two_array;
 
-public class MyRunnable implements Runnable {
+public class BodyOfThread implements Runnable {
     private float[] floats;
 
-    MyRunnable(float[] data) {
+    BodyOfThread(float[] data) {
         floats = data;
     }
 
