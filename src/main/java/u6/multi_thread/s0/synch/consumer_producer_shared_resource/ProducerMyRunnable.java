@@ -9,10 +9,10 @@ class ProducerMyRunnable implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("startRunProducer:" + Thread.currentThread().getName());
+        System.out.println("start producer.run()" + Thread.currentThread().getName());
         for (int i = 0; i < 5; ++i) {
             resource.put(i);
         }
-        System.out.println("endRunProducer:" + Thread.currentThread().getName());
+        System.out.println("end producer.run()" + Thread.currentThread().getName());
     }
 }

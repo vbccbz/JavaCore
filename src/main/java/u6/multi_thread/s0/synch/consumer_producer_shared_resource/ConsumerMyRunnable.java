@@ -9,10 +9,10 @@ class ConsumerMyRunnable implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("\t\tstartRunConsumer:" + Thread.currentThread().getName());
+        System.out.println("\t\tstart consumer.run()" + Thread.currentThread().getName());
         for (int i = 0; i < 5; ++i) {
             resource.get();
         }
-        System.out.println("\t\tendRunConsumer:" + Thread.currentThread().getName());
+        System.out.println("\t\tend consumer.run()" + Thread.currentThread().getName());
     }
 }

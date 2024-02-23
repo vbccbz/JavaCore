@@ -38,12 +38,12 @@ Reentrant and thread-safe
         System.out.println(System.currentTimeMillis() - time);
 
         time = System.currentTimeMillis();
-        float[] resource_part1 = new float[HALF];
-        float[] resource_part2 = new float[HALF];
-        System.arraycopy(resource, 0, resource_part1, 0, HALF);
-        System.arraycopy(resource, HALF, resource_part2, 0, HALF);
-        Thread thread1 = new Thread(new BodyOfThread(resource_part1));
-        Thread thread2 = new Thread(new BodyOfThread(resource_part2));
+        float[] resource2 = new float[HALF];
+        float[] resource3 = new float[HALF];
+        System.arraycopy(resource, 0, resource2, 0, HALF);
+        System.arraycopy(resource, HALF, resource3, 0, HALF);
+        Thread thread1 = new Thread(new BodyOfThread(resource2));
+        Thread thread2 = new Thread(new BodyOfThread(resource3));
         thread1.start();// recalling a start() after the end of thread is an error.
         thread2.start();
         try {
@@ -52,8 +52,8 @@ Reentrant and thread-safe
         } catch (InterruptedException exc) {
             exc.printStackTrace();
         }
-        System.arraycopy(resource_part1, 0, resource, 0, HALF);
-        System.arraycopy(resource_part2, 0, resource, HALF, HALF);
+        System.arraycopy(resource2, 0, resource, 0, HALF);
+        System.arraycopy(resource3, 0, resource, HALF, HALF);
         System.out.println(System.currentTimeMillis() - time);
     }
 }
