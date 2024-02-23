@@ -1,20 +1,27 @@
-package u4.generics.s3.nested_classes;
+package u3.nested_classes;
 
-public class NestedClassesApp {
-    int field = 1;
+public class OuterClass {
+    private int field = 1;
 
-    class A {
-        int field = NestedClassesApp.this.field;
+    public class NestedInnerMemberClass {
+        int field = OuterClass.this.field;
 
         void hi() {
             System.out.println("Hello!");
         }
     }
 
-    A a;
+    public static class NestedStaticClass {
+        //!int field = OuterClass.this.field;
+
+        void hi() {
+            System.out.println("Hello!");
+        }
+    }
+
 
     Object c = new Object() {
-        int field = NestedClassesApp.this.field;
+        int field = OuterClass.this.field;
 
         void hi() {
             System.out.println("Hello!");
@@ -23,7 +30,7 @@ public class NestedClassesApp {
 
     public void met() {
         class D {
-            int field = NestedClassesApp.this.field;
+            int field = OuterClass.this.field;
 
             void hi() {
                 System.out.println("Hello!");
@@ -32,7 +39,7 @@ public class NestedClassesApp {
         D d;
 
         Object e = new Object() {
-            int field = NestedClassesApp.this.field;
+            int field = OuterClass.this.field;
 
             void hi() {
                 System.out.println("Hello!");

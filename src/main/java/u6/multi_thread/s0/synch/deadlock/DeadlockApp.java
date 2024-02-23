@@ -4,13 +4,6 @@ public class DeadlockApp {
     private static final Object lock1 = new Object();
     private static final Object lock2 = new Object();
 
-    public static void main(String[] args) {
-        DeadThreadOne threadOne = new DeadThreadOne();
-        DeadThreadTwo threadTwo = new DeadThreadTwo();
-        threadOne.start();
-        threadTwo.start();
-    }
-
     private static class DeadThreadOne extends Thread {
         public void run() {
             synchronized (lock1) {
@@ -43,5 +36,12 @@ public class DeadlockApp {
                 }
             }
         }
+    }
+
+    public static void main(String[] args) {
+        DeadThreadOne threadOne = new DeadThreadOne();
+        DeadThreadTwo threadTwo = new DeadThreadTwo();
+        threadOne.start();
+        threadTwo.start();
     }
 }

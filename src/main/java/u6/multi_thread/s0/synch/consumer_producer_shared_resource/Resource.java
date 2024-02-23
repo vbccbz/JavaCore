@@ -3,7 +3,7 @@ package u6.multi_thread.s0.synch.consumer_producer_shared_resource;
 class Resource {
     int n = 0;
 
-    synchronized void put(int n) {
+    synchronized void put(int n) {// every object has a Monitor
         System.out.println("start resource.put()" + Thread.currentThread().getName());
         this.n = n;
         try {
@@ -16,7 +16,7 @@ class Resource {
     }
 
     int get() {
-        synchronized (this) {
+        synchronized (this) {// Monitor
             System.out.println("\t\tstart resource.get()" + Thread.currentThread().getName());
             try {
                 Thread.sleep(300);
