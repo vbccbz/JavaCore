@@ -7,13 +7,14 @@ public class ArrApp {
 
     public static void main(String[] args) {
         Object object = null;
-        Object[] objects = null;
+
         int [] ints = null;
+        Object[] objects = null;
         Number[] numbers = null;
         Integer[] integers = null;
 
-        object = objects = numbers = integers;
         object = ints;
+        object = objects = numbers = integers;
 
         int length = Array.getLength(object);
         object = Array.get(object, 0);

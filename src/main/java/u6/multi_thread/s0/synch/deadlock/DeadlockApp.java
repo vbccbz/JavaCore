@@ -21,7 +21,7 @@ public class DeadlockApp {
         }
     }
 
-    private static class DeadThreadTwo extends Thread {
+    private static class DeadThreadTwo implements Runnable {
         public void run() {
             synchronized (lock2) {
                 System.out.println("DeadThreadTwo is holding LOCK 2...");
@@ -40,7 +40,7 @@ public class DeadlockApp {
 
     public static void main(String[] args) {
         DeadThreadOne threadOne = new DeadThreadOne();
-        DeadThreadTwo threadTwo = new DeadThreadTwo();
+        Thread threadTwo = new Thread(new DeadThreadTwo());
         threadOne.start();
         threadTwo.start();
     }

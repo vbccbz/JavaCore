@@ -16,6 +16,8 @@ ok
 C:\Users\User\JavaCore>C:\Users\User\ideaIU-2020.1.windows\bin\idea64.exe "."
 open project with name '.'
 idea64.exe works bad with "." argument as "current dir" and opens project with name '.'. The better solution is to add 
+Windows Registry Editor Version 5.00
+
 [HKEY_CLASSES_ROOT\Directory\Background\shell\Idea here\command]
 @="\"C:\\Users\\User\\ideaIU-2020.1.windows\\bin\\idea64.exe\" %V"
 
