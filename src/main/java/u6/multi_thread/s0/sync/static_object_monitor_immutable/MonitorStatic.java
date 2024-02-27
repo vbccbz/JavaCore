@@ -1,4 +1,4 @@
-package u6.multi_thread.s0.synch.static_object_monitor_immutable;
+package u6.multi_thread.s0.sync.static_object_monitor_immutable;
 
 public class MonitorStatic {
     private static Integer monitor1 = 0;

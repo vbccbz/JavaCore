@@ -1,4 +1,4 @@
-package u6.multi_thread.s0.synch.consumer_producer_shared_resource;
+package u6.multi_thread.s0.sync.consumer_producer_shared_resource;
 
 class ConsumerMyRunnable implements Runnable {
     Resource resource;

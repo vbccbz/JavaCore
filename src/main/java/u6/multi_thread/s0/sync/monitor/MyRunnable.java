@@ -1,4 +1,4 @@
-package u6.multi_thread.s0.synch.monitor;
+package u6.multi_thread.s0.sync.monitor;
 
 public class MyRunnable implements java.lang.Runnable {
     String data;

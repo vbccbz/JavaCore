@@ -1,4 +1,4 @@
-package u6.multi_thread.s0.synch.static_method;
+package u6.multi_thread.s0.sync.static_method;
 
 public class SynchStaticMethodApp {// классы в джаве загружаются в мета-спэйс
     public static void main(String[] args) {

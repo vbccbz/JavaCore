@@ -1,4 +1,4 @@
-package u6.multi_thread.s0.synch.static_shared_resource;
+package u6.multi_thread.s0.sync.static_shared_resource;
 
 public class SyncApp {
     public static void main(String[] args) {

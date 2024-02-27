@@ -1,4 +1,4 @@
-package u6.multi_thread.s0.synch.two_monitor;
+package u6.multi_thread.s0.sync.two_monitor;
 
 public class Resource {
     private long c1 = 0;
