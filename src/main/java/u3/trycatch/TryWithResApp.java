@@ -50,8 +50,8 @@ public class TryWithResApp {
 //        }
 
         //suppressed exceptions
-        try (MyFile myFile1 = new MyFile("first dead");
-             MyFile myFile2 = new MyFile("second dead")) {
+        try (MyFile badClose1 = new MyFile("first dead");
+             MyFile badClose2 = new MyFile("second dead")) {
             System.out.println("try");
         } catch (Exception exception) {
             exception.printStackTrace();
