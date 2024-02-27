@@ -1,10 +1,11 @@
 package u6.multi_thread.s0.sync.static_shared_resource;
 
 public class MyRunnable implements Runnable {
+    static Resource staticSA = new Resource();
+
     Thread thrd;
     int[] data;
     int sum;
-    static Resource staticSA = new Resource();
 
     MyRunnable(String name, int[] data) {
         thrd = new Thread(this, name);
