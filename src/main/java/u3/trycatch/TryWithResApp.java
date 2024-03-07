@@ -53,6 +53,7 @@ public class TryWithResApp {
         try (MyFile badClose1 = new MyFile("first dead");
              MyFile badClose2 = new MyFile("second dead")) {
             System.out.println("try");
+            throw new Exception("from try");
         } catch (Exception exception) {
             exception.printStackTrace();
         } finally {

@@ -24,6 +24,9 @@ Windows Registry Editor Version 5.00
 .java может содержать сколько угодно классов default или private. 
 javac компилирует public класс ТОЛЬКО если класс находится в одноимённом файле.
 
+javac needs full path to .java
+java need classpath and class name relative to classpath
+
 ~/jt
 $ ls
 appsrc/
@@ -36,6 +39,7 @@ peoplebin/
         Person.class
 
 javac [-sourcepath 'dir[;dir]...'] <path/*.java [path/*.java]...>
+
 ~/jt
 $  javac -sourcepath './peoplesrc/;' ./appsrc/*.java -d 'spbin'   (but -classpath works here too...)
 spbin/
@@ -48,6 +52,7 @@ ok
 I am a Person
 
 javac [-classpath '[dir][;dirs]...'] <path/*.java [path/*.java]...>
+
 ~/jt
 $ javac -classpath './peoplebin/;' ./appsrc/*.java -d 'cpbin'
 cpbin/
