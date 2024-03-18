@@ -1,11 +1,11 @@
 package u4.generics.s3.references;
 
 public class Utilz {
-    public static boolean takeVoid() {
+    public static boolean stakeVoid() {
         return false;
     }
 
-    public static boolean takeHuman(Human human) {
+    public static boolean stakeHuman(Human human) {
         return true;
     }
 

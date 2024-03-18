@@ -43,33 +43,27 @@ public class App {
         */
 
         Consumer_v_p1<Human> consumer = null;
-        Predicate_b_p1<Human> predicate = null;
+        Predicate_b_p1<Human> predicate1 = null;
         Predicate_b_p1_p2<Human, Human> predicate2 = null;
 
-        consumer = Utilz::takeHuman;
+        consumer = Utilz::stakeHuman;
         consumer.accept(first);//Utilz.takeHuman(first)
-
         consumer = first::compare;
         consumer.accept(second);//first.compare(second)
-
         consumer = Human::takeVoid;
         consumer.accept(first);//first.takeVoid()
 
-        predicate = Utilz::takeHuman;
-        result = predicate.test(first);//Utilz.takeHuman(first)
-
-        predicate = first::compare;
-        result = predicate.test(second);//first.compare(second)
-
-        predicate = Human::takeVoid;
-        result = predicate.test(first);// first.takeVoid()
+        predicate1 = Utilz::stakeHuman;
+        result = predicate1.test(first);//Utilz.takeHuman(first)
+        predicate1 = first::compare;
+        result = predicate1.test(second);//first.compare(second)
+        predicate1 = Human::takeVoid;
+        result = predicate1.test(first);// first.takeVoid()
 
         predicate2 = Utilz::scompareHumans;
         predicate2.test(first, second);//Utilz.scompareHumans(first,second)
-
         predicate2 = utilz::compareHumans;
         result = predicate2.test(first, second);//utilz.compareHumans(first, second)
-
         predicate2 = Human::compare;
         result = predicate2.test(first, second);//first.compare(second)
 

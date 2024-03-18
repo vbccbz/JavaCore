@@ -6,13 +6,14 @@ public class TwoArrayApp {
     public static void main(String[] args) {
 /*
 Process
+    Heap(??? each thread has separate heap block?)
     Files(???)
     Data(statics)
     Code(Text)
     Threads
         Registers
         Stack
-        Heap(each thread has separate heap block)
+        static ThreadLocal
 
 True parallel can work only on at least 2 core.
 
