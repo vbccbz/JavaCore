@@ -11,7 +11,7 @@ public class Human {
         return true;
     }
 
-    public boolean compare(Human human){
+    public boolean compare(Human human) {
         return true;
     }
 
