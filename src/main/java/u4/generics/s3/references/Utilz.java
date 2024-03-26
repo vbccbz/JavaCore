@@ -1,19 +1,19 @@
 package u4.generics.s3.references;
 
-public class Utilz {
-    public static boolean stakeVoid() {
+public class Utilz<T> {
+    public static <T> boolean stakeVoid() {
         return false;
     }
 
-    public static boolean stakeHuman(Human human) {
+    public static <T> boolean stake(T t) {
         return true;
     }
 
-    public static boolean scompareHumans(Human human, Human human2) {
+    public static <T> boolean scompare(T t1, T t2) {
         return true;
     }
 
-    public boolean compareHumans(Human human, Human human2) {
+    public boolean compare(T t1, T t2) {
         return true;
     }
 }
