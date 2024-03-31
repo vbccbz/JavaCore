@@ -15,4 +15,7 @@ public class Human {
         return true;
     }
 
+    public boolean compare2(Human human, Human h2) {
+        return true;
+    }
 }
