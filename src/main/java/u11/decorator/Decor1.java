@@ -7,11 +7,16 @@ public class Decor1 extends Decorator {
 
     @Override
     public void write(byte b) {
-        super.write(b);
+        super.write(foo(b));
     }
 
     @Override
     public byte read() {
         return super.read();
     }
+
+    public byte foo(byte b) {
+        return 0;
+    }
+
 }

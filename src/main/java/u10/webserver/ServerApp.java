@@ -10,6 +10,7 @@ import java.util.*;
 
 public class ServerApp {
     public static void main(String[] args) throws IOException {
+        InputStream inputStream;
         ServerSocket serverSocket = new ServerSocket(8081);
 
         Socket socket = serverSocket.accept();

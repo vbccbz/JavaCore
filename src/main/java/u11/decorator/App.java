@@ -7,5 +7,6 @@ public class App {
 
         Decor1 decor1 = new Decor1(new Decor2(new Imp()));
         decor1.read();
+
     }
 }

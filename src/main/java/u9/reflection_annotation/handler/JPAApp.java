@@ -1,15 +1,10 @@
-package u9.handler;
+package u9.reflection_annotation.handler;
 
 
-import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayDeque;
-import java.util.List;
 
 public class JPAApp {
 
