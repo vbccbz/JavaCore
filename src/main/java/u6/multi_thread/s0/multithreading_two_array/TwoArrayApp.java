@@ -13,7 +13,8 @@ Process
     Threads
         Registers
         Stack
-        static ThreadLocal
+        static ThreadLocal<T>
+        _Thread_local int tmp; does copy of static block in thread (Reentrant and thread-safe)
 
 True parallel can work only on at least 2 core.
 
@@ -21,8 +22,16 @@ Objects and classes have the Monitor. The Monitor is an abstraction for synchron
 
 At first, MyRunnable looks more logical than SomeClassName. But for real - many classes implements many interfaces. And their names isn't correspond with interface's names. The implementation of interface endows attributes to a type(class). Instead "MyRunnable" you can use "ArrayHandler".
 
-_Thread_local int tmp; does copy of static block in thread.
-Reentrant and thread-safe
+Runnable
+    run()
+Thread implements Runnable
+    Runnable target
+    Thread(Runnable)
+    start()
+        //magic of create kernel thread...
+        run()
+    run()
+        if (target != null) target.run()
 
  */
         final int LENGTH = 10_000_000;
