@@ -8,7 +8,7 @@ func(123);
  */
 
 
-public class Gen<T> {
+public class MyGen<T> {
 /*
 4.4 Type Variables
     A type variable is an unqualified identifier used as a type in class, interface, method,
@@ -40,7 +40,7 @@ This is a declaration of the formal type parameter T ( type variables, пара�
 A type variable is an unqualified identifier used as a type in class, interface, static and non-static methods, and constructor bodies.
 */
 /*
-public class Gen<T>{ }
+public class MyGen<T>{ }
 is a generic type declaration (it is compiled once).
 A class is generic if it declares one or more type variables (§4.4).
 */
@@ -59,7 +59,7 @@ A class is generic if it declares one or more type variables (§4.4).
 //        return super.equals(obj);
         if (this == obj) return true;
         if (obj == null || this.getClass() != obj.getClass()) return false;
-        Gen<?> o = (Gen<?>) obj;
+        MyGen<?> o = (MyGen<?>) obj;
         if (this.data == null) return false;
         return this.data.equals(o.data);
     }

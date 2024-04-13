@@ -1,11 +1,9 @@
 package u4.generics.s0;
 
-import java.util.*;
-
 public class WildPecsApp {
 
     public static void main(String[] args) {
-        Gen<?> wildBox = null;
+        MyGen<?> wildBox = null;
         /* ? is a special kind of type argument
         Collection<?>
         (pronounced "collection of unknown") is the supertype of all kinds of collection (is a wildcard type).
@@ -18,16 +16,16 @@ public class WildPecsApp {
         SomeClass2 c2 = new SomeClass2();
         SomeClass3 c3 = new SomeClass3();
 
-        Gen<? extends SomeClass2> producer = null;
-        Gen<? super SomeClass2> consumer = null;
+        MyGen<? extends SomeClass2> producer = null;
+        MyGen<? super SomeClass2> consumer = null;
 
-//!     producer = new Gen<SomeClass1>();
-        producer = new Gen<SomeClass2>();
-        producer = new Gen<SomeClass3>();
+//!     producer = new MyGen<SomeClass1>();
+        producer = new MyGen<SomeClass2>();
+        producer = new MyGen<SomeClass3>();
 
-        consumer = new Gen<SomeClass1>();
-        consumer = new Gen<SomeClass2>();
-//!     consumer = new Gen<SomeClass3>();
+        consumer = new MyGen<SomeClass1>();
+        consumer = new MyGen<SomeClass2>();
+//!     consumer = new MyGen<SomeClass3>();
 
 //!     producer.add(c1);
 //!     producer.add(c2);
