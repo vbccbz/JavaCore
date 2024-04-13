@@ -13,7 +13,7 @@
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
     <build>
-        <plugins>
+          <plugins>
             <!-- the Maven Shade Plugin for the simple convenience of making the JAR file executable. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
