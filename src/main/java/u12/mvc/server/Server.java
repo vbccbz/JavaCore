@@ -10,10 +10,11 @@ import java.util.Set;
 
 
 public class Server {
-    private ServerSocket serverSocket;
     private static ViewGuiServer gui; //объект класса представления
     private static ModelGuiServer model; //объект класса модели
     private static volatile boolean isServerStart = false; //флаг отражающий состояние сервера запущен/остановлен
+
+    private ServerSocket serverSocket;
 
     //метод, запускающий сервер
     protected void startServer(int port) {
