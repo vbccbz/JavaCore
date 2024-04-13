@@ -11,7 +11,7 @@ public class ArrApp {
         int [] ints = null;
         Object[] objects = null;
         Number[] numbers = null;
-        Integer[] integers = null;
+        Integer[] integers = new Integer[3];
 
         object = ints;
         object = objects = numbers = integers;
@@ -50,7 +50,7 @@ public class ArrApp {
                         {26, 27, 28}
                 }
         };
-        System.out.println(zyx[0][2][2]);
-        System.out.println(zyx[2][1][0]);
+        System.out.println(zyx[1][1][1]);//14
+        System.out.println(zyx[2][2][2]);//28
     }
 }
