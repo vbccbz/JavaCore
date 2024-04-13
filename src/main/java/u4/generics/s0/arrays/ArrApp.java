@@ -3,12 +3,13 @@ package u4.generics.s0.arrays;
 import java.lang.reflect.Array;
 
 public class ArrApp {
-    public static void arrTest(int[] array){}
+    public static void arrTest(int[] array) {
+    }
 
     public static void main(String[] args) {
         Object object = null;
 
-        int [] ints = null;
+        int[] ints = new int[3];
         Object[] objects = null;
         Number[] numbers = null;
         Integer[] integers = new Integer[3];
@@ -27,9 +28,9 @@ public class ArrApp {
             * Every array type implements the interfaces Cloneable and java.io.Serializable.
          */
 
-        int[] array1 = {1,2,3};
+        int[] array1 = {1, 2, 3};
         //!array1 = {1,2,3};
-        arrTest(new int[]{1,2,3});
+        arrTest(new int[]{1, 2, 3});
         //!arrTest({1,2,3});//array initializer isn't allowed here
         // but something like that works in annotations
 
