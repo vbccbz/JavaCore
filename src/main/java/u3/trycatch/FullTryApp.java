@@ -10,7 +10,6 @@ Throwable
     Error (unchecked)
     Exception
         RuntimeException (unchecked)
-        IOException (checked)
         ... (checked)
 */
 
