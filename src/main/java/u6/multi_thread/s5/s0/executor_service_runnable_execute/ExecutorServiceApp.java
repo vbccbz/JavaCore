@@ -30,19 +30,17 @@ public class ExecutorServiceApp {
             }
         });
 
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < 10; ++i) {
-                    System.out.println("B + " + Thread.currentThread().getName());
-                    try {
-                        Thread.sleep(300);
-                    } catch (InterruptedException exception) {
-                        exception.printStackTrace();
+        executorService.execute(() -> {
+                    for (int i = 0; i < 10; ++i) {
+                        System.out.println("B + " + Thread.currentThread().getName());
+                        try {
+                            Thread.sleep(300);
+                        } catch (InterruptedException exception) {
+                            exception.printStackTrace();
+                        }
                     }
                 }
-            }
-        });
+        );
 
         System.out.println("shutdown executorSevice...");
         executorService.shutdown();// non-blocking
@@ -50,7 +48,8 @@ public class ExecutorServiceApp {
         System.out.println("wait");
         try {
             executorService.awaitTermination(1, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException exception) {
+        } catch (
+                InterruptedException exception) {
             exception.printStackTrace();
         }
         System.out.println("end main");
