@@ -14,6 +14,15 @@ public class MyGen<T> {
     is a generic type declaration (it is compiled once).
     A class is generic if it declares one or more type variables (§4.4).
 
+    8.1.2 Generic Classes and Type Parameters
+        A class is generic if it declares one or more type variables (§4.4).
+        These type variables are known as the type parameters of the class. The type
+        parameter section follows the class name and is delimited by angle brackets.
+        TypeParameters:
+    < TypeParameterList >
+        TypeParameterList:
+        TypeParameter {, TypeParameter}
+
     <T> is the formal type parameter section.
     This is a declaration of the formal type parameter T ( type variables, параметр типа, тИповый параметр).
     A type variable is an unqualified identifier used as a type in class, interface, static and non-static methods, and constructor bodies.
@@ -33,14 +42,6 @@ public class MyGen<T> {
         is the name of a generic type and <T1,...,Tn> is a list of type arguments that denote
         a particular parameterization of the generic type.
 
-    8.1.2 Generic Classes and Type Parameters
-        A class is generic if it declares one or more type variables (§4.4).
-        These type variables are known as the type parameters of the class. The type
-        parameter section follows the class name and is delimited by angle brackets.
-        TypeParameters:
-    < TypeParameterList >
-        TypeParameterList:
-        TypeParameter {, TypeParameter}
     */
     T data;
 
