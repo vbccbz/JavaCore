@@ -10,29 +10,24 @@ public class ThreadFactoryApp {
             @Override
             public Thread newThread(Runnable r) {
                 Thread thread = new Thread(r);
-                System.out.println("create thread... ");
+                System.out.println("create thread " + thread.getName());
                 return thread;
             }
         });
         executorService.execute(()->{
-            System.out.println(Thread.currentThread().getName());
-            System.out.println("1");
+            System.out.println("1" + " " + Thread.currentThread().getName());
         });
         executorService.execute(()->{
-            System.out.println(Thread.currentThread().getName());
-            System.out.println("2");
+            System.out.println( "2" + " " + Thread.currentThread().getName());
         });
         executorService.execute(()->{
-            System.out.println(Thread.currentThread().getName());
-            System.out.println("3");
+            System.out.println( "3" + " " + Thread.currentThread().getName());
         });
         executorService.execute(()->{
-            System.out.println(Thread.currentThread().getName());
-            System.out.println("4");
+            System.out.println("4" + " " + Thread.currentThread().getName());
         });
         executorService.execute(()->{
-            System.out.println(Thread.currentThread().getName());
-            System.out.println("5");
+            System.out.println("5" + " " + Thread.currentThread().getName());
         });
         executorService.shutdown();
 
