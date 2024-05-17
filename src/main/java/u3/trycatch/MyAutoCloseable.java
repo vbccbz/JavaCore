@@ -2,11 +2,11 @@ package u3.trycatch;
 
 import java.io.FileNotFoundException;
 
-public class MyFile implements AutoCloseable {
+public class MyAutoCloseable implements AutoCloseable {
     String name;
     String flag;
 
-    public MyFile(String name, String flag) throws Exception {
+    public MyAutoCloseable(String name, String flag) throws Exception {
         this.name = name;
         this.flag = flag;
         if (flag.equals("bad open")){
