@@ -47,8 +47,8 @@ public class MySuppressedExceptionApp {
             }
         }
 
-        try (MyAutoCloseable badClose1 = new MyAutoCloseable("first", "bad close");
-             MyAutoCloseable badClose2 = new MyAutoCloseable("second", "ok close")) {
+        try (MyAutoCloseable badClose1 = new MyAutoCloseable("first", false, false);
+             MyAutoCloseable badClose2 = new MyAutoCloseable("second", true, true)) {
             System.out.println("1");
             throw new Exception("2");
         } catch (Exception exception) {

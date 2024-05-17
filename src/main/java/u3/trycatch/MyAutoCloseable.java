@@ -7,10 +7,10 @@ public class MyAutoCloseable implements AutoCloseable {
     boolean bad_opening = false;
     boolean bad_closing = false;
 
-    public MyAutoCloseable(String name, boolean opening, boolean closing) throws Exception {
+    public MyAutoCloseable(String name, boolean bad_opening, boolean bad_closing) throws Exception {
         this.name = name;
-        this.bad_opening = opening;
-        this.bad_closing = closing;
+        this.bad_opening = bad_opening;
+        this.bad_closing = bad_closing;
         if (bad_opening){
             throw new Exception(name + " bad opening");
         }
