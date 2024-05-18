@@ -14,7 +14,7 @@ Throwable
 */
 
 public class MySuppressedExceptionApp {
-    public static void main(String[] args) {
+    public static void f() {
         InputStream in1 = null;
         InputStream in2 = null;
         try {
@@ -46,15 +46,18 @@ public class MySuppressedExceptionApp {
                 }
             }
         }
+    }
 
+    public static void main(String[] args) {
         try (MyAutoCloseable badClose1 = new MyAutoCloseable("first", false, false);
-             MyAutoCloseable badClose2 = new MyAutoCloseable("second", true, true)) {
-            System.out.println("1");
-            throw new Exception("2");
+             MyAutoCloseable badClose2 = new MyAutoCloseable("second", false, true)) {
+            System.out.println("try");
+            System.out.println("throws exc...");
+            throw new Exception("throw in try");
         } catch (Exception exception) {
             exception.printStackTrace();
         } finally {
-            System.out.println("3");
+            System.out.println("finally");
         }
     }
 }

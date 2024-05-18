@@ -12,6 +12,7 @@ public class MyAutoCloseable implements AutoCloseable {
         this.bad_opening = bad_opening;
         this.bad_closing = bad_closing;
         if (bad_opening){
+            System.out.println(name + " bad opening...");
             throw new Exception(name + " bad opening");
         }
         System.out.println(name + " normal opening");
@@ -20,6 +21,7 @@ public class MyAutoCloseable implements AutoCloseable {
     @Override
     public void close() throws Exception {
         if (bad_closing){
+            System.out.println(name + " bad closing...");
             throw new Exception(name + " bad closing");
         }
         System.out.println(name + " normal closing");
