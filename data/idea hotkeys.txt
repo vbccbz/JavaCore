@@ -1,0 +1,16 @@
+hotkeys
+Base code completion/Smart type Ctrl+Space / Ctrl+Shift+Space
+Show context actions Alt+Enter
+Find in Path Ctrl+Shift+F
+Quick documentation Ctrl+Q
+Context info Alt+Q
+Error description Ctrl+F1
+Context help F1
+Find usages Alt+F7
+Go to declaration Ctrl+B
+Implementations Ctrl+Alt+B
+Quick definition Ctrl+Shift+I
+Show context menu Ctrl+Alt+Insert
+Code generate context menu Alt+Insert
+Open in new window Shift+F4
+Debug menu Alt+Shift+F9
