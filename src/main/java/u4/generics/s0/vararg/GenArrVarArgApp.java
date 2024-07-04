@@ -31,10 +31,9 @@ public class GenArrVarArgApp {
         //!array(ints);// wtf
         array(integers);// [Ljava.lang.Integer;
 
+        varArg(1,2,3);// [Ljava.lang.Integer;
         varArg(ints);// [[I wtf
         varArg(integers);// [Ljava.lang.Integer;
-
-        varArg(1,2,3);// [Ljava.lang.Integer;
 
         GenArrVarArgApp.<Object>varArg(1,2,3);// [Ljava.lang.Object;
 
