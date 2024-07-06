@@ -12,8 +12,6 @@ import java.util.stream.Stream;
 public class WebServerApp {
 
   public static void main(String[] args) throws Exception {
-    // Stream.of();//
-    // Arrays.stream();
     // ServerSocket listener = new ServerSocket(8081);
     // ServerSocket listener = new ServerSocket(8081, 100, InetAddress.getByName("localhost"));
     ServerSocket listener = new ServerSocket(80, 100, InetAddress.getByName("192.168.1.2"));
