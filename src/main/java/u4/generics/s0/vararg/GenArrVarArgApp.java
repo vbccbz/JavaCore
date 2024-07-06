@@ -1,13 +1,5 @@
 package u4.generics.s0.vararg;
 
-/*
-[I
-[[I
-java.lang.Integer
-[Ljava.lang.Integer
-[[Ljava.lang.Integer
-*/
-
 public class GenArrVarArgApp {
     static <T> void element(T element) {
         System.out.println(element.getClass().getName());

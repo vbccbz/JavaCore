@@ -15,3 +15,6 @@ Code generate context menu Alt+Insert
 Open in new window Shift+F4
 Debug menu Alt+Shift+F9
 Open last files Ctrl+E
+
+Main menu Window Editor Tabs Close Ctrl+W
+Main menu Window Editor Tabs Reopen Closed Tab Ctrl+Shift+T
