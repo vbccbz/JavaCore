@@ -15,37 +15,47 @@ public class HTTPRequest {
   public Map<String, String> headers = new LinkedHashMap<>();
   public String body = null;
 
-  public static HTTPRequest   parse (Socket socket) throws IOException {
+  public static HTTPRequest parse(Socket socket) throws Exception {
     HTTPRequest httpRequest = new HTTPRequest();
     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     String currentLine = bufferedReader.readLine();
-    String[] url = currentLine.split(" ");
-    httpRequest.method = url[0];
-    if (url[1].contains("?")) {
-      httpRequest.path = url[1].substring(0, url[1].indexOf("?"));
-      httpRequest.query = url[1].substring(url[1].indexOf("?"));
-    } else {
-      httpRequest.path = url[1];
+    if (currentLine != null) {
+      String[] url = currentLine.split(" ");
+      for (int clpart = 0; clpart < url.length; ++clpart) {
+        if (clpart == 0) {
+          httpRequest.method = url[0];
+        } else if (clpart == 1) {
+          if (url[1].contains("?")) {
+            httpRequest.path = url[1].substring(0, url[1].indexOf("?"));
+            httpRequest.query = url[1].substring(url[1].indexOf("?"));
+          } else {
+            httpRequest.path = url[1];
+          }
+        } else if (clpart == 2) {
+          httpRequest.version = url[2];
+        }
+      }
     }
-    httpRequest.version = url[2];
-    while (currentLine != null && !(currentLine = bufferedReader.readLine()).isEmpty()) {
+    // while (currentLine != null && !(currentLine = bufferedReader.readLine()).isEmpty()) {
+    while ((currentLine = bufferedReader.readLine()) != null && !(currentLine.isEmpty())) {
       int columnIndex = currentLine.indexOf(":");
-      String headerName = currentLine.substring(0, columnIndex).trim();
-      String headerValue = currentLine.substring(columnIndex + 1).trim();
-      httpRequest.headers.put(headerName, headerValue);
+      if (columnIndex!= -1){
+        String headerName = currentLine.substring(0, columnIndex).trim();
+        String headerValue = currentLine.substring(columnIndex + 1).trim();
+        httpRequest.headers.put(headerName, headerValue);
+      }
     }
     String contentLength = httpRequest.headers.get("Content-Length");
-    if (contentLength != null){
-        int contentLengthValue = Integer.parseInt(contentLength);
-        char[] content = new char[contentLengthValue];
-        bufferedReader.read(content);
-        httpRequest.body = String.valueOf(content);
+    if (contentLength != null) {
+      char[] content = new char[Integer.parseInt(contentLength)];
+      bufferedReader.read(content);
+      httpRequest.body = String.valueOf(content);
     }
     return httpRequest;
   }
 
   @Override
-  public String toString(){
+  public String toString() {
     return "";
   }
 }

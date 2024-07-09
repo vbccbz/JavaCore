@@ -19,43 +19,41 @@ public class ClientSocketHandler {
     this.socket = socket;
   }
 
-  public void readHTTPRequestFromSocket() throws IOException {
+  public void readHTTPRequestFromSocket() throws Exception {
     httpRequest = HTTPRequest.parse(socket);
   }
 
-  public void writeHTTPRequestToFile() throws Exception {
-    Path path = Path.of("data/server_log.txt");
-    BufferedWriter bufferedWriter = Files.newBufferedWriter(path, Charset.forName("UTF-8"), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+  public void writeHTTPRequestToFile(String pathToFile) throws Exception {
+    Path path = Path.of(pathToFile);
+    BufferedWriter log = Files.newBufferedWriter(path, Charset.forName("UTF-8"), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
 
-    bufferedWriter.write(httpRequest.method);
-    bufferedWriter.write(" ");
-    bufferedWriter.write(httpRequest.path);
-    if (httpRequest.query != null) {
-      bufferedWriter.write(httpRequest.query);
-    }
-    bufferedWriter.write(" ");
-    bufferedWriter.write(httpRequest.version);
-    bufferedWriter.newLine();
+    log.write((httpRequest.method == null) ? "" : httpRequest.method);
+    log.write(" ");
+    log.write((httpRequest.path == null) ? "" : httpRequest.path);
+    log.write((httpRequest.query == null) ? "" : httpRequest.query);
+    log.write(" ");
+    log.write((httpRequest.version == null) ? "" : httpRequest.version);
+    log.newLine();
 
     httpRequest.headers.forEach((key, value) -> {
       try {
-        bufferedWriter.write(key);
-        bufferedWriter.write(": ");
-        bufferedWriter.write(value);
-        bufferedWriter.newLine();
+        log.write(key);
+        log.write(": ");
+        log.write(value);
+        log.newLine();
       } catch (IOException exception) {
         exception.printStackTrace();
       }
     });
-    bufferedWriter.newLine();
+    log.newLine();
 
     if (httpRequest.body != null) {
-      bufferedWriter.write(httpRequest.body);
-      bufferedWriter.newLine();
+      log.write(httpRequest.body);
+      log.newLine();
     }
-    bufferedWriter.newLine();
+    log.newLine();
 
-    bufferedWriter.flush();
+    log.flush();
   }
 
   public void proceedHTTPRequest() throws IOException {
@@ -76,29 +74,8 @@ public class ClientSocketHandler {
     // Path path = Path.of();
     // BufferedReader pageBufferedReader = Files.newBufferedReader();
     // if (!(Files.isRegularFile(path))) {
-
-    Path path = null;
-    if (httpRequest.path.equals("/") || httpRequest.path.equals("/index")) {
-      path = Path.of("data/index.html");
-      BufferedReader bufferedReader = Files.newBufferedReader(path, Charset.forName("UTF-8"));
-      PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), false, Charset.forName("UTF-8"));
-      printWriter.println("HTTP/1.1 200 OK");//version; answer code;
-      printWriter.println("Content-Type: text/html; charset=utf-8");//version; answer code;
-      printWriter.println();
-      bufferedReader.transferTo(printWriter);
-      printWriter.flush();
-    }
-    else if (httpRequest.path.equals("/gform")) {
-      path = Path.of("data/gform.html");
-      BufferedReader bufferedReader = Files.newBufferedReader(path, Charset.forName("UTF-8"));
-      PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), false, Charset.forName("UTF-8"));
-      printWriter.println("HTTP/1.1 200 OK");//version; answer code;
-      printWriter.println("Content-Type: text/html; charset=utf-8");//version; answer code;
-      printWriter.println();
-      bufferedReader.transferTo(printWriter);
-      printWriter.flush();
-    } else {
-      path = Path.of("data/404.html");
+    if (httpRequest.path == null) {
+      Path path = Path.of("data/404.html");
       BufferedReader bufferedReader = Files.newBufferedReader(path, Charset.forName("UTF-8"));
       PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), false, Charset.forName("UTF-8"));
       printWriter.println("HTTP/1.1 404 NOT_FOUND");//version; answer code;
@@ -106,8 +83,56 @@ public class ClientSocketHandler {
       printWriter.println();
       bufferedReader.transferTo(printWriter);
       printWriter.flush();
+    } else if (httpRequest.method.equals("GET")) {
+      Path path = null;
+      if (httpRequest.path.equals("/") || httpRequest.path.equals("/index")) {
+        path = Path.of("data/index.html");
+      } else {
+        path = Path.of("data" + httpRequest.path + ".html");
+        if (!Files.isReadable(path)) {
+          path = Path.of("data/404.html");
+        }
+      }
+      BufferedReader bufferedReader = bufferedReader = Files.newBufferedReader(path, Charset.forName("UTF-8"));
+      PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), false, Charset.forName("UTF-8"));
+      printWriter.println("HTTP/1.1 200 OK");//version; answer code;
+      printWriter.println("Content-Type: text/html; charset=utf-8");//version; answer code;
+      printWriter.println();
+      bufferedReader.transferTo(printWriter);
+      printWriter.flush();
+    } else if (httpRequest.method.equals("POST")) {
+      Path path = null;
+      path = Path.of("data" + httpRequest.path + ".html");
+
+      BufferedReader fromFile = Files.newBufferedReader(path, Charset.forName("UTF-8"));
+      String currentLine = null;
+      StringBuilder sb = new StringBuilder();
+      while ((currentLine = fromFile.readLine()) != null) {
+        sb.append(currentLine);
+      }
+      fromFile.close();
+
+      sb.insert(sb.indexOf("</div>"), "<p>" + httpRequest.body.substring(httpRequest.body.indexOf("=")) + "</p>");
+      String allString = sb.toString();
+
+      PrintWriter toFile = new PrintWriter(Files.newBufferedWriter(path, Charset.forName("UTF-8"), StandardOpenOption.CREATE));
+      toFile.write(allString);
+      toFile.close();
+
+      fromFile = Files.newBufferedReader(path, Charset.forName("UTF-8"));
+      sb = new StringBuilder();
+      while ((currentLine = fromFile.readLine()) != null) {
+        sb.append(currentLine);
+      }
+      allString = sb.toString();
+
+      PrintWriter toSocket = new PrintWriter(socket.getOutputStream(), false, Charset.forName("UTF-8"));
+      toSocket.println("HTTP/1.1 303 See Other");//version; answer code;
+      toSocket.println("Location: /pform");//version; answer code;
+      toSocket.println();
+      toSocket.write(allString);
+      // bufferedReader.transferTo(toSocket);
+      toSocket.flush();
     }
-
   }
-
 }
