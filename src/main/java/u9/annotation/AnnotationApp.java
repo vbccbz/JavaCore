@@ -1,4 +1,4 @@
-package u9.reflection_annotation;
+package u9.annotation;
 
 import java.lang.annotation.Annotation;
 
