@@ -28,11 +28,8 @@ public class ArrApp {
             * Every array type implements the interfaces Cloneable and java.io.Serializable.
          */
 
-        int[] array1 = {1, 2, 3};
-        //!array1 = {1,2,3};
+        int[] array1 = new int[]{2, 3, 4,};// or int[] array1 = {1, 2, 3};
         arrTest(new int[]{1, 2, 3});
-        //!arrTest({1,2,3});//array initializer isn't allowed here
-        // but something like that works in annotations
 
         String[][][] zyx = {
                 {
