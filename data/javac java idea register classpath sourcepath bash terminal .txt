@@ -1,0 +1,60 @@
+C:\Users\User>command.exe
+Hello!
+
+User@DESKTOP-1133 MINGW64 ~
+$ ./command.exe
+Hello!
+
+.java может содержать сколько угодно классов default или private. 
+javac компилирует public класс ТОЛЬКО если класс находится в одноимённом файле.
+Каждый класс компилируется в отдельный файл.
+
+Идея плохо определяет workind directory, javac и java норм.
+C:\Users\User\JavaCore>C:\Users\User\ideaIU-2020.1.windows\bin\idea64.exe "C:\Users\User\JavaCore"
+    ok
+C:\Users\User\JavaCore>C:\Users\User\ideaIU-2020.1.windows\bin\idea64.exe "."
+    opens project with name '.'
+
+javac.exe needs full path to .java file or files.
+
+java.exe need classpath and class name relative to classpath.
+
+~/jt
+$ ls
+appsrc/
+    App.java
+peoplesrc/
+    people/
+        Person.java
+peoplebin/
+    people/
+        Person.class
+
+    javac [-sourcepath "dir[;dir]..."] <path/*.java [path/*.java]...>
+
+~/jt
+$  javac -sourcepath "./peoplesrc/;" ./appsrc/*.java -d "spbin"   (but -classpath works here too...)
+spbin/
+    App.class
+    people/
+        Person.class
+~/jt
+$ java -classpath "./spbin/;" App
+ok
+I am a Person
+
+    javac [-classpath "[dir][;dir]..."] <path/*.java [path/*.java]...>
+
+~/jt
+$ javac -classpath "./peoplebin/;" ./appsrc/*.java -d "cpbin"
+cpbin/
+    App.class
+~/jt
+$ java -classpath "./peoplebin/;./cpbin/;" App
+ok
+I am a Person
+
+
+"C:\"
+'C:\'
+'C://'

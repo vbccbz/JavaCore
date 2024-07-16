@@ -1,0 +1,199 @@
+
+как я считаю сколько IP в подсети:
+— маска /26 = 32(бита макс. значение) — 26 = 6; 2^6= 64 IP
+— маска 255.255.224.0 = 256(макс. значение) — 224 = 32 (подсети /24) = 32 *256 = 8192 IP
+
+You partially answered the question for yourself in your own question.
+
+You have the ip address of the device you want to communicate with, but you want to know its mac address so that you can provide the proper layer 2 destination information in your Ethernet frame to communicate with that device on your same subnet.
+
+pc1 10.0.0.1/24
+pc2 10.0.0.2/24. 
+Both pcs are connected to a switch
+
+send an arp request to get this missing info (which contains your source ip, the destination ip of pc2, your source mac address, and all ffff-ffff-ffff as the destination mac which is broadcast to every host on your subnet). 
+get the arp response from your desired pc2 who says oh yeah that’s me I’m the guy you’re looking for 10.0.0.2 is me and my mac address is aaaa-bbbb-cccc.
+
+Now that you have that info, you as pc1 can fill in this missing information from before into the the frame’s destination mac address field to communicate directly with pc2.
+
+
+
+
+PC
+    Adapter1
+        IP1, mask, default gateway
+    Adapter2
+        IP2, mask, default gateway
+    Adapter3
+        192.168.1.45, mask, default gateway
+
+PC
+    Server
+        socket (192.168.1.45) ---> receive from Adapter3
+PC
+    Client (the same local network)
+        socket (192.168.1.45)
+
+PC
+    Server
+        socket (0.0.0.0) ---> all adapters 
+PC
+    Client (должен быть в той же сети)
+        socket (192.168.1.45)
+
+PC
+    Server
+        socket (127.0.0.1) ---> серверная программа доступна только в рамках текущего PC.
+    Client (должен быть на том же самом kомпьютере)
+        socket (127.0.0.1)
+
+
+IP + mask = net address, host address.
+default gateway = if target is another net
+
+L2
+    MAC
+L3
+    ARP
+
+Указываем source IP (наш) и mask (subnet)
+Отправляем сообщение на destination IP
+if we have MAC for dest IP in ARP table
+    sent to this MAC
+else
+
+Определяем подсеть назначения.
+
+    Если адреса находятся в одной подсети
+        ARP
+
+            определяется физический адрес получателя
+        IP-пакет инкапсулируется в кадр канального уровня и отправляется по указанному физическому адресу
+    Если адреса находятся в разных подсетях
+        начинается просмотр таблицы в поисках прямого маршрута
+        Если маршрут найден
+            вызывается протокол ARP и определяется физический адрес соответствующего маршрутизатора
+            пакет инкапсулируется в кадр канального уровня и отправляется по указанному физическому адресу
+        Иначе
+            вызывается протокол ARP и определяется физический адрес маршрутизатора по умолчанию
+            пакет инкапсулируется в кадр канального уровня и отправляется по указанному физическому адресу
+
+ A TCP/UDP connection is identified by a unique combination of five values:
+    {<protocol>, <src addr>, <src port>, <dest addr>, <dest port>}
+Otherwise the system would not be able to distinguish connections.
+    
+    socket()
+    select protocol
+
+    bind()
+    select source address and port
+
+    connect()
+    select destination address and port
+
+
+UDP is a connectionless protocol. 
+UDP sockets can be used without connecting.
+
+Yet it is allowed to connect them and in some cases very advantageous for your code and general application design. In connectionless mode, UDP sockets that were not explicitly bound when data is sent over them for the first time are usually automatically bound by the system, as an unbound UDP socket cannot receive any (reply) data. Same is true for an unbound TCP socket, it is automatically bound before it will be connected.
+
+www.google.com ---> DNS server ---> 12.34.56.78
+localhost, адрес обратной связи, определяется без DNS ---> 127.0.0.1
+connect to 127.0.0.1 == connect to yourself.
+
+Server socket: ip = 127.0.0.1, port = 1234;
+
+0.0.0.0 разрешать соединения с любого возможного локального IP-адреса
+
+Порт: 0 до 65535, TRANSPORT (TCP, UDP)
+
+Приложение сервера ожидает входящие данные или запрос на соединение.
+Приложение клиента посылает данные или запрос на соединение на известный порт.
+
+По умолчанию приложению выдается порт с произвольным номером (к примеру, ближайшим свободным, большим 1234).
+Приложение может запросить конкретный (предопределённый) номер порта.
+Веб-серверы открывают для ожидания соединения предопределённый порт 80 протокола TCP.
+
+Порт 1234 протокола TCP не будет мешать обмену по UDP через порт 1234, потому что порты не пересекаются.
+
+OS ports:
+0 - 1023 «критически важные» для сетевой деятельности системы, так что для доступа к ним и службам, с ними связанными часто требуются root права. Windows также их считает системными и пристально следит за ними.
+1024 - 49151 «готовые к регистрации». Это значит, что эти порты зарезервированы или могут быть зарезервированы за определёнными службами. Однако стоит отметить, что они за этими сервисами не закреплены прочными правилами, но могут дать ключ для распознавания запущенной программы на стороне хоста.
+49152 - 65 535 порты не зарегистрированы и используются по усмотрению пользователей ОС и имеют название – «динамические» порты. Так что запоминать, какой порт для какой службы установлен, просто бесполезно.
+
+Сервер: IP: port1 app1, port2 = app2, etc.
+
+Однако есть несколько уже хорошо известных портов:
+FTP-Data, 21. Канал данных файлового транспортного протокола, используется для передачи файлов между системами по протоколу TCP.
+FTP, 20. Управляющий канал FTP. Используется участниками сеанса этого канала для обмена командами и откликами на них по протоколу TCP.
+Telnet, 23. Используется для выполнения команд на удаленном компьютере через протокол TCP;
+SMTP, depends on provider. Простой почтовый протокол для передачи данных по email. Раньше использовался порт под номером 25, сейчас используется шифрование и номер порта уже другой.
+Domain, 53. По протоколам UDP и TCP для получения запросов на разрешение имен хостов;
+HTTP, 80. Транспортный протокол для гипертекстовой разметки. Используется для передачи запросов от браузера (например, ваши запросы в Яндексе).
+POP3depends on provider. Используется для получения электронной почты. До шифрования использовал 110 порт, сейчас номер изменился.
+HTTPS, 443.
+
+Браузер: https://example.com на самом деле есть https://fenix.host:443.
+Браузер: http://example.com на самом деле есть http://fenix.host:80.
+
+Вредоносные программы могут открывать порт без ведома пользователя. Поэтому необходимо быть осведомленным, какие основные порты требуются пользователю и как их можно открывать/закрывать.
+
+Когда трафик перенаправляется другой системе, TCP/IP использует комбинацию IP адреса и определенного порта. Такая связка называется сокетом.
+Сокет – это файловые дескрипторы, конкретизирующие IP адрес и ассоциированный с ним номер порта плюс специальный протокол передачи.
+К примеру, из Интернета можно получить доступ к папке FTP-сервера, указав через двоеточие IP-адрес и порт.
+
+ОС предлагает сетевой интерфейс. С его помощью приложение создаёт сокет, который подключается к модулю сетевого взаимодействия.
+
+Синхронное взаимодействие: все операции (запросить данные от другого компьютера, передать данные) блокируют работу.
+    GetMessage ждёт пока сообщение в очереди не появится.
+    PeekMessage проверить и вернёт управление, после чего снова проверит.
+    Синхронные операции нужно выводить в отдельный поток. Они будут блокировать поток, но это не критично.
+
+Асинхронное взаимодействие: ждём информацию, но пока мы её ждем, можем выполнять другую работу.
+
+p2p:
+    client socket <--> client socket
+    tg, skype, данные передаются напрямую (пусть и через дополнительное оборудование)
+client-server:
+    1) server создает listen socket.
+    2) client socket 1 соединяется с listen socket.
+    3) server создаёт server socket1 и подключает его к внешнему client socket 1 (p2p).
+    4) client socket 2 соединяется с listen socket.
+    5) server создаёт server socket1 и подключает его к внешнему client socket 2 (p2p).
+    6) client socket 1 и client socket 2 связаны через client-server.
+
+
+
+
+
+
+
+
+
+works like DNS:
+hostname -> hosts -> address
+
+empty hosts
+
+Имя    Локальный адрес        Внешний адрес          Состояние
+  TCP    127.0.0.1:7778         DESKTOP-11JI75M:49749  ESTABLISHED
+  TCP    127.0.0.1:49677        DESKTOP-11JI75M:49678  ESTABLISHED
+  TCP    127.0.0.1:49678        DESKTOP-11JI75M:49677  ESTABLISHED
+  TCP    127.0.0.1:49679        DESKTOP-11JI75M:49680  ESTABLISHED
+
+java
+getByName (127.0.0.1) = 127.0.0.1
+getByname (localhost) = localhost
+
+hosts
+127.0.0.1 some.name.net
+
+  Имя    Локальный адрес        Внешний адрес          Состояние
+  TCP    127.0.0.1:7778         some:49749            ESTABLISHED
+  TCP    127.0.0.1:49677        some:49678            ESTABLISHED
+  TCP    127.0.0.1:49678        some:49677            ESTABLISHED
+  TCP    127.0.0.1:49679        some:49680            ESTABLISHED
+
+java
+getByName (127.0.0.1) = some.name.net
+getByname (localhost) = localhost
