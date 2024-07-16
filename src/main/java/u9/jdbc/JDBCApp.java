@@ -12,17 +12,17 @@ public class JDBCApp {
     System.out.println("HELLO");
     try {
       Class.forName("org.sqlite.JDBC");//isn't needed in new versions???
-//            class JDBC{
+//          class JDBC implements Driver{
 //            static {
 //                try {
-//                    java.sql.DriverManager.registerDriver(new JDBC());// DM is a singleton. org.sqlite.JDBC is an implementation of Driver
+//                    java.sql.DriverManager.registerDriver(new JDBC());// DM is a singleton.
 //                    java.sql.DriverManager.registerDriver(new org.sqlite.JDBC()); classpath from Maven allows to find org.sqlite.JDBC class
 //                } catch (SQLException var1) {
 //                    var1.printStackTrace();
 //                }
 //            }
 //            ...
-//            }
+//          }
       connection = DriverManager.getConnection("jdbc:sqlite:main.db");
 //          sqllite creates new db if there isn't
 //          java.util.Properties properties = new java.util.Properties();
