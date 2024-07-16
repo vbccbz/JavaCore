@@ -1,4 +1,4 @@
-package u9.reflection_annotation.handler;
+package u9.reflection.handler;
 
 public class Student {
     @MyAnnotation(nameType = "longKek")

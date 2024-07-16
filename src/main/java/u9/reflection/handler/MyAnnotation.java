@@ -1,4 +1,4 @@
-package u9.reflection_annotation.handler;
+package u9.reflection.handler;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
