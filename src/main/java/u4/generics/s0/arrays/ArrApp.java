@@ -8,8 +8,8 @@ public class ArrApp {
 
     public static void main(String[] args) {
         Object object = null;
-
         int[] ints = new int[3];
+
         Object[] objects = null;
         Number[] numbers = null;
         Integer[] integers = new Integer[3];
