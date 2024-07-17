@@ -4,12 +4,6 @@ import java.sql.*;
 
 public class JDBCApp {
   public static void main(String[] args) {
-    Connection connection = null;
-    Statement statement = null;
-    PreparedStatement preparedStatement = null;
-    long timer = 0;
-    int[] results = null;
-    System.out.println("HELLO");
     try {
       Class.forName("org.sqlite.JDBC");//isn't needed in new versions???
 //          class JDBC implements Driver{
@@ -23,19 +17,19 @@ public class JDBCApp {
 //            }
 //            ...
 //          }
-      connection = DriverManager.getConnection("jdbc:sqlite:main.db");
+      Connection connection = DriverManager.getConnection("jdbc:sqlite:main.db");
 //          sqllite creates new db if there isn't
 //          java.util.Properties properties = new java.util.Properties();
 //          properties.setProperty("user", "me");
 //          properties.setProperty("password", "1234");
 //          connection = DriverManager.getConnection("jdbc:sqlite:main.db", properties);
 //          "jdbc:posgresql://localhost:5432/jc_student","login","password"
-      statement = connection.createStatement();
+      Statement statement  = connection.createStatement();
 //            query = "CREATE DATABASE lol.db;";// doesn't work this way...
       int r = 0;
       r = statement.executeUpdate("INSERT INTO students(name, score) VALUES ('Alice', 111)");
       r = statement.executeUpdate("INSERT INTO students(name, score) VALUES ('Alice', 111);INSERT INTO students(name, score) VALUES ('Alice', 111);");
-      preparedStatement = connection.prepareStatement("INSERT INTO students(name, score) VALUES(?,?)");
+      PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO students(name, score) VALUES(?,?)");
       //careful: doesn't check types corresponding, SQL easy load String into INTEGER...
       preparedStatement.setString(1, "Bob");
       preparedStatement.setInt(2, 666);
@@ -44,7 +38,7 @@ public class JDBCApp {
       statement.executeUpdate("DELETE FROM students;");
 
       connection.setAutoCommit(true);// by default; setAutoCommit(true) does commit and does set this connection's auto-commit mode
-      timer = System.currentTimeMillis();
+      long timer = System.currentTimeMillis();
       for (int i = 0; i < 1000; ++i) {
         statement.executeUpdate("INSERT INTO students(name, score) VALUES ('XXX', 111)");
       }
@@ -64,7 +58,7 @@ public class JDBCApp {
         statement.addBatch("INSERT INTO students(name, score) VALUES ('XXX', 111)");
       }
       connection.setAutoCommit(true);
-      results = statement.executeBatch();
+      int [] results = statement.executeBatch();
       System.out.println(System.currentTimeMillis() - timer + " statement batch ac true  ");
 
       connection.setAutoCommit(true);
