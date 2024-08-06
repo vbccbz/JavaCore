@@ -1,9 +1,11 @@
 package u10.webserver;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.Socket;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -26,8 +28,8 @@ public class HTTPRequest {
           httpRequest.method = url[0];
         } else if (clpart == 1) {
           if (url[1].contains("?")) {
-            httpRequest.path = url[1].substring(0, url[1].indexOf("?"));
-            httpRequest.query = url[1].substring(url[1].indexOf("?"));
+            httpRequest.path = url[1].substring(0, url[1].indexOf("?") + 1);
+            httpRequest.query = url[1].substring(url[1].indexOf("?") + 1);
           } else {
             httpRequest.path = url[1];
           }
@@ -39,7 +41,7 @@ public class HTTPRequest {
     // while (currentLine != null && !(currentLine = bufferedReader.readLine()).isEmpty()) {
     while ((currentLine = bufferedReader.readLine()) != null && !(currentLine.isEmpty())) {
       int columnIndex = currentLine.indexOf(":");
-      if (columnIndex!= -1){
+      if (columnIndex != -1) {
         String headerName = currentLine.substring(0, columnIndex).trim();
         String headerValue = currentLine.substring(columnIndex + 1).trim();
         httpRequest.headers.put(headerName, headerValue);
@@ -54,8 +56,54 @@ public class HTTPRequest {
     return httpRequest;
   }
 
+  public void writeHTTPRequestToFile(String pathToFile) throws Exception {
+    Path path = Path.of(pathToFile);
+    if (Files.isRegularFile(path)){
+      BufferedWriter log = Files.newBufferedWriter(path, Charset.forName("UTF-8"), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+      log.write(toString());
+      log.flush();
+    }
+
+  }
+
   @Override
   public String toString() {
-    return "";
+    StringWriter str = new StringWriter();
+    PrintWriter strDecorator = new PrintWriter(str);
+
+    if (method != null) {
+      strDecorator.write(method);
+      strDecorator.write(" ");
+    }
+    if (path != null) {
+      strDecorator.write(path);
+    }
+    if (query != null) {
+      strDecorator.write("?");
+      strDecorator.write(query);
+      strDecorator.write(" ");
+    }
+    if (version != null) {
+      strDecorator.write(" ");
+    }
+    strDecorator.println();
+
+    headers.forEach((key, value) -> {
+      strDecorator.write(key);
+      strDecorator.write(": ");
+      strDecorator.write(value);
+      strDecorator.println();
+    });
+    strDecorator.println();
+
+    if (body != null) {
+      strDecorator.write(body);
+      strDecorator.println();
+    }
+    strDecorator.println();
+
+    strDecorator.flush();
+
+    return str.toString();
   }
 }

@@ -17,16 +17,12 @@ public class WebServerApp {
     // ServerSocket listener = new ServerSocket(80);
     // ServerSocket listener = new ServerSocket(80, 100, InetAddress.getByName("localhost"));
     // ServerSocket listener = new ServerSocket(80, 100, InetAddress.getByName("192.168.1.2"));
-    var s = InetAddress.getByName("localhost").getHostAddress();
-    ServerSocket listener = new ServerSocket(8081, 100, InetAddress.getByName("0.0.0.0"));
     // ServerSocket listener = new ServerSocket( 8081, 100,  InetAddress.getByName("localhost") );
+    ServerSocket listener = new ServerSocket(8081, 100, InetAddress.getByName("0.0.0.0"));
     while (true) {
       Socket connector = listener.accept();
       ClientSocketHandler clientSocketHandler = new ClientSocketHandler(connector);
-      clientSocketHandler.readHTTPRequestFromSocket();
-      clientSocketHandler.writeHTTPRequestToFile("data/server_log.txt");
-      clientSocketHandler.proceedHTTPRequest();
-      clientSocketHandler.writeToSocket();
+      clientSocketHandler.maintask();
       connector.close();
     }
     // listener.close();

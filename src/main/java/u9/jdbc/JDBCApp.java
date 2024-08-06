@@ -23,7 +23,7 @@ public class JDBCApp {
 //            }
 //            ...
 //          }
-      connection = DriverManager.getConnection("jdbc:sqlite:main.db");
+      connection = DriverManager.getConnection("jdbc:sqlite:data/main.db");
 //          sqllite creates new db if there isn't
 //          java.util.Properties properties = new java.util.Properties();
 //          properties.setProperty("user", "me");
@@ -33,8 +33,11 @@ public class JDBCApp {
       statement = connection.createStatement();
 //            query = "CREATE DATABASE lol.db;";// doesn't work this way...
       int r = 0;
-      r = statement.executeUpdate("INSERT INTO students(name, score) VALUES ('Alice', 111)");
-      r = statement.executeUpdate("INSERT INTO students(name, score) VALUES ('Alice', 111);INSERT INTO students(name, score) VALUES ('Alice', 111);");
+      r = statement.executeUpdate("CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, score INTEGER );");
+      // r = statement.executeUpdate("INSERT INTO users(name, score) VALUES ('Alice', 111);INSERT INTO users(name, score) VALUES ('Bob', 222);");
+      r = statement.executeUpdate("INSERT INTO users(name, score) VALUES ('Alice', 111);");
+      // r = statement.executeUpdate("INSERT INTO users(name, score) VALUES ('Alice', 111);INSERT INTO users(name, score) VALUES ('Bob', 222);");
+
       preparedStatement = connection.prepareStatement("INSERT INTO students(name, score) VALUES(?,?)");
       //careful: doesn't check types corresponding, SQL easy load String into INTEGER...
       preparedStatement.setString(1, "Bob");
@@ -117,7 +120,7 @@ public class JDBCApp {
       while (rs.next()) {
         System.out.println(rs.getInt(1) + " " + rs.getString("name") + " " + rs.getInt("score"));
       }
-//        } catch (SQLException | ClassNotFoundException exception) {// в случае static disconnect() вместо двух разных удобнее бросать один
+      // } catch (SQLException | ClassNotFoundException exception) {// в случае static disconnect() вместо двух разных удобнее бросать один
     } catch (SQLException exception) {
       exception.printStackTrace();
     } catch (ClassNotFoundException exception) {

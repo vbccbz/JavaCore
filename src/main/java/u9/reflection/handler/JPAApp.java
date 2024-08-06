@@ -46,7 +46,7 @@ public class JPAApp {
 
         try {
             Class.forName("org.sqlite.JDBC");
-            try (Connection connection = DriverManager.getConnection("jdbc:sqlite:main.db")) {
+            try (Connection connection = DriverManager.getConnection("jdbc:sqlite:data/main.db")) {
 //                try(PreparedStatement preparedStatement = connection.prepareStatement("CREATE TABLE ?(name TEXT);")){
 //
 //                } catch (SQLException exception) {

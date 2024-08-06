@@ -6,133 +6,88 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.stream.Stream;
 
 public class ClientSocketHandler {
   private Socket socket;
   private HTTPRequest httpRequest;
+  private String page;
 
-  ClientSocketHandler(Socket socket) {
+  public ClientSocketHandler(Socket socket) {
     this.socket = socket;
+  }
+
+  public void maintask() throws Exception {
+    readHTTPRequestFromSocket();
+    routingHTTPRequest();
+    writeToSocket();
   }
 
   public void readHTTPRequestFromSocket() throws Exception {
     httpRequest = HTTPRequest.parse(socket);
+    httpRequest.writeHTTPRequestToFile("data/server_log.txt");
   }
 
-  public void writeHTTPRequestToFile(String pathToFile) throws Exception {
-    Path path = Path.of(pathToFile);
-    BufferedWriter log = Files.newBufferedWriter(path, Charset.forName("UTF-8"), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-
-    log.write((httpRequest.method == null) ? "" : httpRequest.method);
-    log.write(" ");
-    log.write((httpRequest.path == null) ? "" : httpRequest.path);
-    log.write((httpRequest.query == null) ? "" : httpRequest.query);
-    log.write(" ");
-    log.write((httpRequest.version == null) ? "" : httpRequest.version);
-    log.newLine();
-
-    httpRequest.headers.forEach((key, value) -> {
-      try {
-        log.write(key);
-        log.write(": ");
-        log.write(value);
-        log.newLine();
-      } catch (IOException exception) {
-        exception.printStackTrace();
+  public String loadPage(String filePath) throws IOException {
+    StringBuilder stringBuilder = new StringBuilder();
+    Path path = Path.of(filePath);
+    if (Files.isRegularFile(path)) {
+      String currentLine = null;
+      // why does PrintWriter has SOO, but buffered doesn't?
+      BufferedReader bufferedReader = Files.newBufferedReader(path, Charset.forName("UTF-8"));
+      while((currentLine = bufferedReader.readLine())!= null){
+        stringBuilder.append(currentLine);
       }
-    });
-    log.newLine();
-
-    if (httpRequest.body != null) {
-      log.write(httpRequest.body);
-      log.newLine();
     }
-    log.newLine();
-
-    log.flush();
+    return stringBuilder.toString();
   }
 
-  public void proceedHTTPRequest() throws IOException {
+  public void storeComment(String pathString) throws IOException {
+    Path path = Path.of(pathString);
+    if (Files.isRegularFile(path)) {
+      PrintWriter printWriter = new PrintWriter(Files.newBufferedWriter(path, StandardOpenOption.CREATE, StandardOpenOption.APPEND));
+      printWriter.write(httpRequest.body);
+      printWriter.println();
+      printWriter.close();
+    }
+  }
 
-    //   printWriter.println("HTTP/1.1 404 NOT_FOUND");
-    //   printWriter.println("Content-Type: text/html; charset=utf-8");//version; answer code;
-    //   printWriter.println();
+  public void routingHTTPRequest() throws IOException {
+    if (httpRequest.method.equals("GET")) {
+      try{
+        page = loadPage(httpRequest.path);
+        // page.println("HTTP/1.1 200 OK");//version; answer code;
+        // page.println("Content-Type: text/html; charset=utf-8");//version; answer code;
+        // page.println();
+      } catch (Exception exception){
+        //   page.println("HTTP/1.1 404 NOT_FOUND");
+        //   page.println("Content-Type: text/html; charset=utf-8");//version; answer code;
+        //   page.println();
+        page = loadPage("404.html");
+      }
 
-    // toBrowserStream.println("HTTP/1.1 200 OK");//version; answer code;
-    // toBrowserStream.println("Content-Type: text/html; charset=utf-8");//version; answer code;
-    // toBrowserStream.println();
+    } else if (httpRequest.method.equals("POST")) {
+      storeComment("comments.txt");
+      // page.println("HTTP/1.1 303 See Other");//version; answer code;
+      // page.println("Location: /pform");//version; answer code;
+      // page.println();
 
-    // toBrowserStream.println("HTTP/1.1 302 Found");//version; answer code;
+      // page("HTTP/1.1 302 Found");//version; answer code;
+
+      page = loadPage(httpRequest.path);//all about action=""
+
+    } else {
+      //   page.println("HTTP/1.1 404 NOT_FOUND");
+      //   page.println("Content-Type: text/html; charset=utf-8");//version; answer code;
+      //   page.println();
+      page = loadPage("404.html");
+    }
 
   }
 
   public void writeToSocket() throws IOException {
-    // Path path = Path.of();
-    // BufferedReader pageBufferedReader = Files.newBufferedReader();
-    // if (!(Files.isRegularFile(path))) {
-    if (httpRequest.path == null) {
-      Path path = Path.of("data/404.html");
-      BufferedReader bufferedReader = Files.newBufferedReader(path, Charset.forName("UTF-8"));
-      PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), false, Charset.forName("UTF-8"));
-      printWriter.println("HTTP/1.1 404 NOT_FOUND");//version; answer code;
-      printWriter.println("Content-Type: text/html; charset=utf-8");//version; answer code;
-      printWriter.println();
-      bufferedReader.transferTo(printWriter);
-      printWriter.flush();
-    } else if (httpRequest.method.equals("GET")) {
-      Path path = null;
-      if (httpRequest.path.equals("/") || httpRequest.path.equals("/index")) {
-        path = Path.of("data/index.html");
-      } else {
-        path = Path.of("data" + httpRequest.path + ".html");
-        if (!Files.isReadable(path)) {
-          path = Path.of("data/404.html");
-        }
-      }
-      BufferedReader bufferedReader = bufferedReader = Files.newBufferedReader(path, Charset.forName("UTF-8"));
-      PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), false, Charset.forName("UTF-8"));
-      printWriter.println("HTTP/1.1 200 OK");//version; answer code;
-      printWriter.println("Content-Type: text/html; charset=utf-8");//version; answer code;
-      printWriter.println();
-      bufferedReader.transferTo(printWriter);
-      printWriter.flush();
-    } else if (httpRequest.method.equals("POST")) {
-      Path path = null;
-      path = Path.of("data" + httpRequest.path + ".html");
-
-      BufferedReader fromFile = Files.newBufferedReader(path, Charset.forName("UTF-8"));
-      String currentLine = null;
-      StringBuilder sb = new StringBuilder();
-      while ((currentLine = fromFile.readLine()) != null) {
-        sb.append(currentLine);
-      }
-      fromFile.close();
-
-      sb.insert(sb.indexOf("</div>"), "<p>" + httpRequest.body.substring(httpRequest.body.indexOf("=")) + "</p>");
-      String allString = sb.toString();
-
-      PrintWriter toFile = new PrintWriter(Files.newBufferedWriter(path, Charset.forName("UTF-8"), StandardOpenOption.CREATE));
-      toFile.write(allString);
-      toFile.close();
-
-      fromFile = Files.newBufferedReader(path, Charset.forName("UTF-8"));
-      sb = new StringBuilder();
-      while ((currentLine = fromFile.readLine()) != null) {
-        sb.append(currentLine);
-      }
-      allString = sb.toString();
-
-      PrintWriter toSocket = new PrintWriter(socket.getOutputStream(), false, Charset.forName("UTF-8"));
-      toSocket.println("HTTP/1.1 303 See Other");//version; answer code;
-      toSocket.println("Location: /pform");//version; answer code;
-      toSocket.println();
-      toSocket.write(allString);
-      // bufferedReader.transferTo(toSocket);
-      toSocket.flush();
-    }
+    PrintWriter toSocket = new PrintWriter(socket.getOutputStream(), false, Charset.forName("UTF-8"));
+    toSocket.write(page);
+    toSocket.flush();
+    // bufferedReader.transferTo(toSocket);
   }
 }
