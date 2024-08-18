@@ -19,6 +19,17 @@ javac.exe needs full path to .java file or files.
 
 java.exe need classpath and class name relative to classpath.
 
+A.class must be already compiled if javac is using:
+    javac -classpath "bin" -d "bin" B.java
+    B.java:6: error: cannot find symbol
+
+
+    C:\Users\User\Desktop\New folder (2)>javac -d "bin" B.java A.java
+    B.java:6: error: cannot find symbol
+
+    C:\Users\User\Desktop\New folder (2)>javac -d "bin" B.java A.java
+ok)))
+
 ~/jt
 $ ls
 appsrc/
