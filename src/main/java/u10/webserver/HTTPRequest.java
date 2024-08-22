@@ -56,15 +56,7 @@ public class HTTPRequest {
     return httpRequest;
   }
 
-  public void writeHTTPRequestToFile(String pathToFile) throws Exception {
-    Path path = Path.of(pathToFile);
-    if (Files.isRegularFile(path)){
-      BufferedWriter log = Files.newBufferedWriter(path, Charset.forName("UTF-8"), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-      log.write(toString());
-      log.flush();
-    }
 
-  }
 
   @Override
   public String toString() {

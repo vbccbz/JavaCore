@@ -16,8 +16,6 @@ public class WebServerApp {
     // ServerSocket listener = new ServerSocket(8081, 100, InetAddress.getByName("192.168.1.2"));
     ServerSocket listener = new ServerSocket();
     listener.bind(new InetSocketAddress(InetAddress.getByName("0.0.0.0"), 8081), 100);//void bind(SocketAddress endpoint, int backlog)
-    Socket s1 = listener.accept();
-    Socket s2 = listener.accept();
     while (true) {
       Socket connector = listener.accept();
       ClientSocketHandler clientSocketHandler = new ClientSocketHandler(connector);
