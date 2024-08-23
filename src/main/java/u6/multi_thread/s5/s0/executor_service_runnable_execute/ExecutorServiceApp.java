@@ -47,7 +47,7 @@ public class ExecutorServiceApp {
 
         System.out.println("wait");
         try {
-            executorService.awaitTermination(1, TimeUnit.MILLISECONDS);
+            executorService.awaitTermination(1, TimeUnit.MILLISECONDS);//Long.MAX_VALUE with TimeUnit.NANOSECONDS  292 years
         } catch (
                 InterruptedException exception) {
             exception.printStackTrace();
