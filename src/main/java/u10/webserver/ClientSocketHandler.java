@@ -2,91 +2,80 @@ package u10.webserver;
 
 import java.io.*;
 import java.net.Socket;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
-public class ClientSocketHandler {
+public class ClientSocketHandler implements Runnable {
   private Socket socket;
-  // private HTTPRequest httpRequest;
-  private String page;
+  private HTTPRequest httpRequest;
+
+  @Override
+  public void run() {//throws Exception
+    handle();
+  }
 
   public ClientSocketHandler(Socket socket) {
     this.socket = socket;
   }
 
-  public void maintask() throws Exception {
+  public void handle() {
     try {
-      HTTPRequest httpRequest = parsing();
+      httpRequest = HTTPRequest.parse(socket);
       log(Path.of("data/server_log.txt"), httpRequest.toString());
-      routing(httpRequest);
-      rendering();//
+      routing();
+      rendering();
     } catch (Exception exception) {
       exception.printStackTrace();
     }
   }
 
-  public HTTPRequest parsing() throws Exception {
-    return HTTPRequest.parse(socket);
-  }
-
   public void log(Path path, String message) throws IOException {
     if (Files.isRegularFile(path)) {
-      try (BufferedWriter log = Files.newBufferedWriter(path, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {//Charset.forName("UTF-8")
-        log.write(message);
-        log.flush();
+      try (BufferedWriter bufferedWriter = Files.newBufferedWriter(path, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {//Charset.forName("UTF-8")
+        bufferedWriter.write(message);
+        bufferedWriter.flush();
       }
     }
   }
 
-  public void routing(HTTPRequest httpRequest ) throws IOException{
+  public void routing() throws IOException {
+    String page;
     if (httpRequest.method.equals("GET")) {
-      try {
-        page = loadPage(httpRequest.path);
+      if (true) {
+        fetching();
         // page.println("HTTP/1.1 200 OK");//version; answer code;
         // page.println("Content-Type: text/html; charset=utf-8");//version; answer code;
         // page.println();
-      } catch (Exception exception) {
-        //   page.println("HTTP/1.1 404 NOT_FOUND");
-        //   page.println("Content-Type: text/html; charset=utf-8");//version; answer code;
-        //   page.println();
-        page = loadPage("404.html");
+        rendering();
       }
-
     } else if (httpRequest.method.equals("POST")) {
-      mutation(httpRequest);
+      mutation();
+      fetching();
       // page.println("HTTP/1.1 303 See Other");//version; answer code;
       // page.println("Location: /pform");//version; answer code;
       // page.println();
+      rendering();
 
       // page("HTTP/1.1 302 Found");//version; answer code;
-
-      page = loadPage(httpRequest.path);//all about action=""
-
     } else {
+      fetching();//"404.html"
+      rendering();
       //   page.println("HTTP/1.1 404 NOT_FOUND");
       //   page.println("Content-Type: text/html; charset=utf-8");//version; answer code;
       //   page.println();
-      page = loadPage("404.html");
     }
+
   }
 
-  public void rendering() throws IOException {
-    PrintWriter toSocket = new PrintWriter(socket.getOutputStream(), false, StandardCharsets.UTF_8);
-    toSocket.write(page);
-    toSocket.flush();
-    // bufferedReader.transferTo(toSocket);
-  }
-
-  public String loadPage(String filePath) throws IOException {
+  public String fetching() throws IOException {
     StringBuilder stringBuilder = new StringBuilder();
-    Path path = Path.of(filePath);
+    Path path = Path.of(httpRequest.path);
     if (Files.isRegularFile(path)) {
       String currentLine = null;
       // why does PrintWriter has SOO, but buffered doesn't?
-      try(BufferedReader bufferedReader = Files.newBufferedReader(path, StandardCharsets.UTF_8)){
+      try (BufferedReader bufferedReader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
         while ((currentLine = bufferedReader.readLine()) != null) {
           stringBuilder.append(currentLine);
         }
@@ -95,7 +84,7 @@ public class ClientSocketHandler {
     return stringBuilder.toString();
   }
 
-  public void mutation(HTTPRequest httpRequest) throws IOException {
+  public void mutation() throws IOException {
     Path path = Path.of(httpRequest.path);
     if (Files.isRegularFile(path)) {
       PrintWriter printWriter = new PrintWriter(Files.newBufferedWriter(path, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND));
@@ -103,6 +92,12 @@ public class ClientSocketHandler {
       printWriter.println();
       printWriter.close();
     }
+  }
+
+  public void rendering() throws IOException {
+    PrintWriter toSocket = new PrintWriter(socket.getOutputStream(), false, StandardCharsets.UTF_8);
+    // toSocket.flush();
+    // bufferedReader.transferTo(toSocket);
   }
 
 }

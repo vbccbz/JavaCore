@@ -1,6 +1,8 @@
 package u10.webserver;
 
 import java.net.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class WebServerApp {
   /*
@@ -16,11 +18,11 @@ public class WebServerApp {
     // ServerSocket listener = new ServerSocket(8081, 100, InetAddress.getByName("192.168.1.2"));
     ServerSocket listener = new ServerSocket();
     listener.bind(new InetSocketAddress(InetAddress.getByName("0.0.0.0"), 8081), 100);//void bind(SocketAddress endpoint, int backlog)
+    ExecutorService executorService = Executors.newFixedThreadPool(2);
     while (true) {
-      Socket connector = listener.accept();
-      ClientSocketHandler clientSocketHandler = new ClientSocketHandler(connector);
-      clientSocketHandler.maintask();
-      connector.close();
+      Socket socket = listener.accept();
+      ClientSocketHandler clientSocketHandler = new ClientSocketHandler(socket);
+      executorService.execute(clientSocketHandler);
     }
     // listener.close();
   }
