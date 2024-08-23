@@ -1,5 +1,6 @@
 hotkeys
-Base code completion/Smart type Ctrl+Space / Ctrl+Shift+Space
+Base code completion Ctrl+Space
+Smart type Ctrl+Shift+Space
 Show context actions Alt+Enter
 Find in Path Ctrl+Shift+F
 Quick documentation Ctrl+Q
