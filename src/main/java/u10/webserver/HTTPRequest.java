@@ -51,7 +51,11 @@ public class HTTPRequest {
     if (contentLength != null) {
       char[] content = new char[Integer.parseInt(contentLength)];
       bufferedReader.read(content);
-      httpRequest.body = String.valueOf(content);
+      if (content.length != 0){
+        httpRequest.body = String.valueOf(content);
+      }else{
+        httpRequest.body ="";
+      }
     }
     return httpRequest;
   }
