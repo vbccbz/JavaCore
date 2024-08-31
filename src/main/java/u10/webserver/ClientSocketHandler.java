@@ -101,12 +101,15 @@ public class ClientSocketHandler implements Runnable {
   }
 
   public String rendering(String page, String messages) throws IOException {
-    StringBuilder stringBuilder = new StringBuilder(page);
-    int position = page.indexOf("<div class=\"chat\">") + "<div class=\"chat\">".length()+1 ;
-    stringBuilder.insert(position, messages);
-
-    return stringBuilder.toString();
-
+    StringBuilder stringBuilderMessages = new StringBuilder();
+    String[] lines = messages.split("\n");
+    for (var line : lines){
+      stringBuilderMessages.append("\n<p>").append(line).append("</p>\n");
+    }
+    StringBuilder stringBuilderPage = new StringBuilder(page);
+    int position = stringBuilderPage.indexOf("<div class=\"chat\">") + "<div class=\"chat\">".length() ;
+    String result = stringBuilderPage.insert(position, stringBuilderMessages.toString()).toString();
+    return result;
   }
 
   public void mutation(String path, String body) throws IOException {
