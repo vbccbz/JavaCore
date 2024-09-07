@@ -5,8 +5,31 @@
     <link rel="icon" type="image/png" sizes="16x16"
           href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEU0OkArMjhobHEoPUPFEBIuO0L+AAC2FBZ2JyuNICOfGx7xAwTjCAlCNTvVDA1aLzQ3COjMAAAAVUlEQVQI12NgwAaCDSA0888G    CItjn0szWGBJTVoGSCjWs8TleQCQYV95evdxkFT8Kpe0PLDi5WfKd4LUsN5zS1sKFolt8bwAZrCaGqNYJAgFDEpQAAAzmxafI4vZWwAAAABJRU5ErkJggg==">
 </head>
-<body>
 <p>Hello!</p>
+<p id="api">Hello!</p>
 <a href="chat-room"> The form page is here </a>
+<p><button type="button" id="button1"> get some</button></p>
+<script>
+    function foo() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/api/messages", true );
+        xhr.onload = function(){
+            if (xhr.status == 200){
+                // alert("200");
+                let response = this.responseText;
+                // console.log(response);
+                let element = document.getElementById("api");
+                element.innerHTML = response;
+            }else{
+                alert("BAD");
+            }
+        }
+
+        xhr.send()
+
+    }
+    let b = document.getElementById("button1");
+    b.addEventListener('click', foo);
+</script>
 </body>
 </html>

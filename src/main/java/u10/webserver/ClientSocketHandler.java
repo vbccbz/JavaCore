@@ -58,15 +58,19 @@ public class ClientSocketHandler implements Runnable {
     try {
       switch (httpRequest.method) {
         case "GET":
-          if (httpRequest.path.equals("/")) {
-            httpRequest.path = "main";
-          }
-          page = fetching(httpRequest.path + ".html");
-          if (httpRequest.path.equals("/chat-room")){
+          if (httpRequest.path.contains("/api")) {
             String messages = fetching("messages.txt");
+            sendRespond(200, messages);
+          } else if (httpRequest.path.equals("/")) {
+            httpRequest.path = "main";
+            page = fetching(httpRequest.path + ".html");
+            sendRespond(200, page);
+          } else if (httpRequest.path.equals("/chat-room")) {
+            String messages = fetching("messages.txt");
+            page = fetching(httpRequest.path + ".html");
             page = rendering(page, messages);
+            sendRespond(200, page);
           }
-          sendRespond(200, page);
           break;
         case "POST":
           mutation("data/messages.txt", httpRequest.body);
@@ -76,7 +80,7 @@ public class ClientSocketHandler implements Runnable {
           sendRespond(400, "400 Bad Request");
           break;
       }
-    } catch (IOException ioException1){
+    } catch (IOException ioException1) {
       try {
         page = fetching("404.html");
         sendRespond(404, page);
@@ -103,11 +107,11 @@ public class ClientSocketHandler implements Runnable {
   public String rendering(String page, String messages) throws IOException {
     StringBuilder stringBuilderMessages = new StringBuilder();
     String[] lines = messages.split("\n");
-    for (var line : lines){
+    for (var line : lines) {
       stringBuilderMessages.append("\n<p>").append(line).append("</p>\n");
     }
     StringBuilder stringBuilderPage = new StringBuilder(page);
-    int position = stringBuilderPage.indexOf("<div class=\"chat\">") + "<div class=\"chat\">".length() ;
+    int position = stringBuilderPage.indexOf("<div class=\"chat\">") + "<div class=\"chat\">".length();
     String result = stringBuilderPage.insert(position, stringBuilderMessages.toString()).toString();
     return result;
   }
