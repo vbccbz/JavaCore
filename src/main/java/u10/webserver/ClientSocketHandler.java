@@ -54,7 +54,7 @@ public class ClientSocketHandler implements Runnable {
   }
 
   public void routing(HTTPRequest httpRequest) throws IOException {
-    String page;
+    // String page;
     try {
       switch (httpRequest.method) {
         case "GET":
@@ -63,11 +63,11 @@ public class ClientSocketHandler implements Runnable {
             sendRespond(200, messages);
           } else if (httpRequest.path.equals("/")) {
             httpRequest.path = "main";
-            page = fetching(httpRequest.path + ".html");
+            String page = fetching(httpRequest.path + ".html");
             sendRespond(200, page);
           } else if (httpRequest.path.equals("/chat-room")) {
             String messages = fetching("messages.txt");
-            page = fetching(httpRequest.path + ".html");
+            String page = fetching(httpRequest.path + ".html");
             page = rendering(page, messages);
             sendRespond(200, page);
           }
@@ -82,7 +82,7 @@ public class ClientSocketHandler implements Runnable {
       }
     } catch (IOException ioException1) {
       try {
-        page = fetching("404.html");
+        String page = fetching("404.html");
         sendRespond(404, page);
       } catch (IOException ioException2) {
         sendRespond(500, "500 Internal Server Error");
