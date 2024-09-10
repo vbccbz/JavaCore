@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Date;
@@ -69,6 +70,9 @@ public class ClientSocketHandler implements Runnable {
             String messages = fetching("messages.txt");
             String page = fetching(httpRequest.path + ".html");
             page = rendering(page, messages);
+            sendRespond(200, page);
+          } else {
+            String page = fetching(httpRequest.path + ".html");
             sendRespond(200, page);
           }
           break;
