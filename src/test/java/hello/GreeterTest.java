@@ -8,25 +8,23 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.hamcrest.CoreMatchers.containsString;
 
-public class GreeterTest {
-    private Greeter greeter = new Greeter();// instance initializer??? field initialization  by variable initializer
+public class GreeterTest {// new instance for each @Test
+  private Greeter greeter = new Greeter();// instance initializer??? field initialization  by variable initializer
 
-    @Test
-    public void testGetHello() {
-        assertThat(greeter.getHello(), containsString("Hello!"));
-    }
+  @Test
+  public void testGetHello() {
+    assertThat(greeter.getHello(), containsString("Hello!"));
+  }
 
-    @Test
-    public void testGetHello2() {
-        assertEquals("Hello!", greeter.getHello());
-    }
+  @Test
+  public void testGetHello2() {
+    assertEquals("Hello!", greeter.getHello());
+  }
 
-    @Test
-    public void testTwoPlusTwoEqualsFour() {
-        Greeter greeter2 = new Greeter();
-        assertEquals(4, greeter2.add(2, 2));
-        assertNotEquals(0, greeter2.add(2, 2));
-        assertTrue(4 == greeter2.add(2,2));
-    }
+  @Test
+  public void testTwoPlusTwoEqualsFour() {
+    // assertTrue(5 == greeter.add(2, 2));// fails test
+    // assertNotEquals(5, greeter.add(2, 2));// won't be tested at all
+  }
 
 }

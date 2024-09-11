@@ -8,12 +8,11 @@ import java.util.concurrent.Executors;
 public class WebServerApp {
   public static void main(String[] args) throws Exception {
     ServerSocket listener = new ServerSocket();
-    listener.bind(new InetSocketAddress(InetAddress.getByName("0.0.0.0"), 8081), 100);//void bind(SocketAddress endpoint, int backlog)
+    listener.bind(new InetSocketAddress(InetAddress.getByName("0.0.0.0"), 80), 100);//void bind(SocketAddress endpoint, int backlog)
     // ExecutorService executorService = Executors.newFixedThreadPool(2);
-    Socket socket = null;
     while (true) {
       try {
-        socket = listener.accept();
+        Socket socket = listener.accept();
         ClientSocketHandler clientSocketHandler = new ClientSocketHandler(socket);
         // executorService.execute(clientSocketHandler);
         clientSocketHandler.handle();

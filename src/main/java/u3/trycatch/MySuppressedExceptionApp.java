@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /*
-Throwable
+Throwable (checked)
     Error (unchecked)
-    Exception
+    Exception (checked)
         RuntimeException (unchecked)
         ... (checked)
 */
