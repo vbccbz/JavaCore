@@ -3,6 +3,7 @@ package u10.webserver;
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -19,7 +20,7 @@ public class HTTPRequest {
 
   public static HTTPRequest parse(Socket socket) throws Exception {
     HTTPRequest httpRequest = new HTTPRequest();
-    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
     String currentLine = bufferedReader.readLine();
     if (currentLine != null) {
       String[] url = currentLine.split(" ");
