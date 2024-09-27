@@ -52,13 +52,9 @@ public class ClientSocketHandler implements Runnable {
   }
 
   public void routing(HTTPRequest httpRequest) throws IOException {
-    // String page;
     try {
       if (httpRequest.method.equals("GET")) {
-        if (httpRequest.url.contains("/api")) {
-          String messages = fetching("messages.txt");
-          sendRespond200(messages);
-        } else if (httpRequest.url.equals("/")) {
+        if (httpRequest.url.equals("/")) {
           httpRequest.url = "main";
           String page = fetching(httpRequest.url + ".html");
           sendRespond200(page);
@@ -74,8 +70,11 @@ public class ClientSocketHandler implements Runnable {
       } else if (httpRequest.method.equals("POST")) {
         mutation("data/messages.txt", httpRequest.body);
         sendRespond303(httpRequest.url);
+      } else if (httpRequest.url.contains("/api")) {
+        String messages = fetching("messages.txt");
+        sendRespond200(messages);
       } else {
-        sendRespond400( "400 Bad Request");
+        sendRespond400("400 Bad Request");
       }
     } catch (IOException ioException1) {
       try {
