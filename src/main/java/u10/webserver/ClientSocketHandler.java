@@ -57,32 +57,32 @@ public class ClientSocketHandler implements Runnable {
       if (httpRequest.method.equals("GET")) {
         if (httpRequest.url.contains("/api")) {
           String messages = fetching("messages.txt");
-          sendRespond(200, messages);
+          sendRespond200(messages);
         } else if (httpRequest.url.equals("/")) {
           httpRequest.url = "main";
           String page = fetching(httpRequest.url + ".html");
-          sendRespond(200, page);
+          sendRespond200(page);
         } else if (httpRequest.url.equals("/chat-room")) {
           String messages = fetching("messages.txt");
           String page = fetching(httpRequest.url + ".html");
           page = rendering(page, messages);
-          sendRespond(200, page);
+          sendRespond200(page);
         } else {
           String page = fetching(httpRequest.url + ".html");
-          sendRespond(200, page);
+          sendRespond200(page);
         }
       } else if (httpRequest.method.equals("POST")) {
         mutation("data/messages.txt", httpRequest.body);
-        sendRespond(303, httpRequest.url);
+        sendRespond303(httpRequest.url);
       } else {
-        sendRespond(400, "400 Bad Request");
+        sendRespond400( "400 Bad Request");
       }
     } catch (IOException ioException1) {
       try {
         String page = fetching("404.html");
-        sendRespond(404, page);
+        sendRespond404(page);
       } catch (IOException ioException2) {
-        sendRespond(500, "500 Internal Server Error");
+        sendRespond500("500 Internal Server Error");
       }
     }
   }
@@ -128,41 +128,52 @@ public class ClientSocketHandler implements Runnable {
     }
   }
 
-  public void sendRespond(int statusCode, String body) throws IllegalArgumentException, IOException {
+  public void sendRespond200(String body) throws IOException {
     PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), false, StandardCharsets.UTF_8);
-    if (statusCode == 200) {
-      printWriter.println("HTTP/1.1 200 OK");
-      printWriter.println("Content-Type: text/html; charset=utf-8");
-      printWriter.println("Content-Length: " + body.getBytes().length);
-      printWriter.println();
-      printWriter.println(body);
-    } else if (statusCode == 303) {
-      printWriter.println("HTTP/1.1 303 See Other");
-      printWriter.println("Content-Type: text/html; charset=utf-8");
-      printWriter.println("Location: " + body);
-      printWriter.println();
-    } else if (statusCode == 400) {
-      printWriter.println("HTTP/1.1 400 Bad Request");
-      printWriter.println("Content-Type: text/html; charset=utf-8");
-      printWriter.println("Content-Length: " + body.getBytes().length);
-      printWriter.println();
-      printWriter.println(body);
-    } else if (statusCode == 404) {
-      printWriter.println("HTTP/1.1 404 Not Found");
-      printWriter.println("Content-Type: text/html; charset=utf-8");
-      printWriter.println("Content-Length: " + body.getBytes().length);
-      printWriter.println();
-      printWriter.println(body);
-    } else if (statusCode == 500) {
-      printWriter.println("HTTP/1.1 500 Internal Server Error");
-      printWriter.println("Content-Type: text/html; charset=utf-8");
-      printWriter.println("Content-Length: " + body.getBytes().length);
-      printWriter.println();
-      printWriter.println(body);
-    } else {
-      throw new IllegalArgumentException("there is no such http code");
-    }
+    printWriter.println("HTTP/1.1 200 OK");
+    printWriter.println("Content-Type: text/html; charset=utf-8");
+    printWriter.println("Content-Length: " + body.getBytes().length);
+    printWriter.println();
+    printWriter.println(body);
     printWriter.flush();
   }
 
+  public void sendRespond303(String body) throws IOException {
+    PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), false, StandardCharsets.UTF_8);
+    printWriter.println("HTTP/1.1 303 See Other");
+    printWriter.println("Content-Type: text/html; charset=utf-8");
+    printWriter.println("Location: " + body);
+    printWriter.println();
+    printWriter.flush();
+  }
+
+  public void sendRespond400(String body) throws IOException {
+    PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), false, StandardCharsets.UTF_8);
+    printWriter.println("HTTP/1.1 400 Bad Request");
+    printWriter.println("Content-Type: text/html; charset=utf-8");
+    printWriter.println("Content-Length: " + body.getBytes().length);
+    printWriter.println();
+    printWriter.println(body);
+    printWriter.flush();
+  }
+
+  public void sendRespond404(String body) throws IOException {
+    PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), false, StandardCharsets.UTF_8);
+    printWriter.println("HTTP/1.1 404 Not Found");
+    printWriter.println("Content-Type: text/html; charset=utf-8");
+    printWriter.println("Content-Length: " + body.getBytes().length);
+    printWriter.println();
+    printWriter.println(body);
+    printWriter.flush();
+  }
+
+  public void sendRespond500(String body) throws IOException {
+    PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), false, StandardCharsets.UTF_8);
+    printWriter.println("HTTP/1.1 500 Internal Server Error");
+    printWriter.println("Content-Type: text/html; charset=utf-8");
+    printWriter.println("Content-Length: " + body.getBytes().length);
+    printWriter.println();
+    printWriter.println(body);
+    printWriter.flush();
+  }
 }
