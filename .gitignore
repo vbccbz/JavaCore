@@ -25,3 +25,6 @@
 hs_err_pid*
 replay_pid*
 /JavaCore.iml
+/data/server_log.txt
+/data/messages.txt
+/data/client_log.txt
